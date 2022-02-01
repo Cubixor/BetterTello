@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">BetterTello</string>
+    <string name="exposure">Exposure</string>
+    <string name="exposure_auto">AUTO</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="bitrate_auto">AUTO</string>
+    <string name="bitrate_1">1MBPS</string>
+    <string name="bitrate_1_5">1.5MBPS</string>
+    <string name="bitrate_2">2MBPS</string>
+    <string name="bitrate_3">3MBPS</string>
+    <string name="bitrate_4">4MBPS</string>
+    <string name="pic_quality">Picture quality</string>
+    <string name="pic_quality_low">LOW</string>
+    <string name="pic_quality_high">HIGH</string>
+    <string name="state_ready_to_fly">Ready to fly</string>
+    <string name="state_flying">In flight</string>
+    <string name="state_not_connected">Waiting for connection…</string>
+    <string name="state_lost_connection">Connection lost</string>
+    <string name="state_low_battery">Low battery level</string>
+    <string name="state_critical_battery">Critical battery level</string>
+    <string name="state_weak_wifi_signal">Weak wifi signal</string>
+    <string name="state_strong_wifi_interference">Strong wifi interference</string>
+    <string name="state_low_light">Low light level</string>
+</resources>

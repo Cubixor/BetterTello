@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/photo_btn_txt" />
+
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:centerColor="#41000000"
+                android:endColor="#41000000"
+                android:startColor="#41000000" />
+        </shape>
+    </item>
+
+</layer-list>

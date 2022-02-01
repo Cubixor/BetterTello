@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/video_btn_txt" />
+
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:centerColor="#880d0d0f"
+                android:endColor="#880d0d0f"
+                android:startColor="#880d0d0f" />
+        </shape>
+    </item>
+
+</layer-list>
