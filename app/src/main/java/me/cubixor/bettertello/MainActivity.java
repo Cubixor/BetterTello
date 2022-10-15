@@ -1,36 +1,53 @@
 package me.cubixor.bettertello;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-
-import android.graphics.Bitmap;
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-
-import org.bytedeco.javacv.AndroidFrameConverter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GestureDetectorCompat;
 
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
-import me.cubixor.telloapi.api.DroneConnectionListener;
+import me.cubixor.bettertello.api.JoystickView;
+import me.cubixor.bettertello.api.OnSwipeListener;
+import me.cubixor.bettertello.controller.ControllerManager;
+import me.cubixor.bettertello.controller.ControllerUtils;
+import me.cubixor.bettertello.data.AppSettings;
+import me.cubixor.bettertello.data.FileManager;
+import me.cubixor.bettertello.tello.TelloAction;
+import me.cubixor.bettertello.tello.TelloStateManager;
+import me.cubixor.bettertello.tello.VideoSettingsWindow;
+import me.cubixor.bettertello.utils.Utils;
+import me.cubixor.bettertello.utils.VideoUtils;
+import me.cubixor.telloapi.api.FlipDirection;
 import me.cubixor.telloapi.api.Tello;
-import me.cubixor.telloapi.api.VideoInfo;
+import me.cubixor.telloapi.api.listeners.DroneConnectionListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DroneConnectionListener {
 
-    Tello tello;
-    TelloInfo telloInfo = new TelloInfo();
-    TelloSettings telloSettings;
-    TelloStateManager telloStateManager;
+    private static MainActivity instance;
+    private AppSettings appSettings;
+    private Tello tello;
+    private ControllerManager controllerManager;
+    private boolean flightModeRunning = false;
 
-    public static MainActivity instance;
-
-    public static MainActivity getInstance() {
+    public static MainActivity getActivity() {
         return instance;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(R.anim.slide_in_main, R.anim.slide_out_home);
     }
 
     @Override
@@ -38,19 +55,18 @@ public class MainActivity extends AppCompatActivity {
         instance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        Utils.fullScreen(this);
 
-        //changeBarColor(BarState.OK, BarState.ERROR);
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED) {
+            // You can use the API that requires the permission.
 
-        telloSettings = new TelloSettings(this);
-        telloStateManager = new TelloStateManager();
-
-        float radius = 1f;
+        } else {
+            // You can directly ask for the permission.
+            // The registered ActivityResultCallback gets the result of this request.
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
 
         View decorView = getWindow().getDecorView();
         ViewGroup rootView = decorView.findViewById(android.R.id.content);
@@ -60,65 +76,191 @@ public class MainActivity extends AppCompatActivity {
         blurView.setupWith(rootView)
                 .setFrameClearDrawable(windowBackground)
                 .setBlurAlgorithm(new RenderScriptBlur(this))
-                .setBlurRadius(radius)
-                .setBlurAutoUpdate(true)
-                .setHasFixedTransformationMatrix(true); // Or false if it's in a scrolling container or might be animated
+                .setBlurRadius(0.1f)
+                .setBlurAutoUpdate(true);
 
-
-        AndroidFrameConverter conv = new AndroidFrameConverter();
-        ImageView imageFrame = findViewById(R.id.video);
 
         tello = Tello.build();
+        tello.addConnectionListener(this);
+        TelloStateManager telloStateManager = new TelloStateManager();
         tello.addConnectionListener(telloStateManager);
         tello.addDroneStatusListener(telloStateManager);
+        tello.addFileListener(new FileManager());
 
-        tello.addVideoListener((frame) -> {
-            Bitmap bitmap = conv.convert(frame);
-            imageFrame.setImageBitmap(bitmap);
-        });
+        VideoView videoView = new VideoView();
+        tello.addVideoListener(videoView);
+
+        appSettings = new AppSettings(this, tello);
+        updateExposureValue(appSettings.getExposure());
+        updateBitrateValue(appSettings.getBitrate());
+
+        controllerManager = new ControllerManager();
 
         JoystickView joystickLeft = findViewById(R.id.joystickLeft);
         joystickLeft.setOnMoveListener((angle, strength) -> {
-            tello.setYaw(joystickLeft.getNormalizedX());
-            tello.setThrottle(joystickLeft.getNormalizedY());
+            tello.getDroneAxis().setYaw(joystickLeft.getNormalizedX());
+            tello.getDroneAxis().setThrottle(joystickLeft.getNormalizedY());
         });
+
+
         JoystickView joystickRight = findViewById(R.id.joystickRight);
         joystickRight.setOnMoveListener((angle, strength) -> {
-            tello.setRoll(joystickRight.getNormalizedX());
-            tello.setPitch(joystickRight.getNormalizedY());
+            tello.getDroneAxis().setRoll(joystickRight.getNormalizedX());
+            tello.getDroneAxis().setPitch(joystickRight.getNormalizedY());
         });
 
+        GestureDetectorCompat detector = new GestureDetectorCompat(this, new OnSwipeListener() {
+            @Override
+            public boolean onSwipe(FlipDirection direction) {
+                System.out.println(direction);
 
-        SwitchCompat onOffSwitch = findViewById(R.id.slowFastSwitch);
-        onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            tello.setFastMode(isChecked);
+                TelloAction.handleFlip(tello, direction);
+
+                return true;
+            }
+        });
+
+        View flipsView = findViewById(R.id.flipsView);
+        View touchIndicatorView = findViewById(R.id.flipsTouchIndicatorView);
+        flipsView.setOnTouchListener((view, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    updateFlipsTouchIndicatorPosition(touchIndicatorView, event);
+                    touchIndicatorView.setVisibility(View.VISIBLE);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    touchIndicatorView.setVisibility(View.INVISIBLE);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    updateFlipsTouchIndicatorPosition(touchIndicatorView, event);
+                    break;
+            }
+
+            view.performClick();
+            return detector.onTouchEvent(event);
         });
     }
 
 
-    public void onTakeoffLandButtonClick(View view) {
-        if (!telloInfo.isFlying()) {
-            tello.getPacketSender().sendTakeOffPacket();
-            view.setBackgroundResource(R.drawable.land);
-            telloInfo.setFlying(true);
-        } else {
-            tello.getPacketSender().sendLandPacket();
-            view.setBackgroundResource(R.drawable.takeoff);
-            telloInfo.setFlying(false);
+    private void updateFlipsTouchIndicatorPosition(View touchIndicatorView, MotionEvent event) {
+        int x = (int) event.getX() - (touchIndicatorView.getWidth() / 2);
+        int y = (int) event.getY() - (touchIndicatorView.getHeight() / 2);
+
+        touchIndicatorView.setX(x);
+        touchIndicatorView.setY(y);
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (ControllerUtils.checkDpadDevice(event)) {
+            int keyCode = ControllerUtils.dpadAxisToKey(event);
+
+            if (keyCode != -1) {
+                controllerManager.precessKeyInput(keyCode, event);
+
+                return true;
+            }
         }
+
+        if (ControllerUtils.checkGenericMotionEvent(event)) {
+            for (int i = 0; i < event.getHistorySize(); i++) {
+                controllerManager.processJoystickInput(event, i);
+            }
+
+            controllerManager.processJoystickInput(event, -1);
+
+            return true;
+        }
+
+        return super.onGenericMotionEvent(event);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (ControllerUtils.checkKeyDownEvent(event)) {
+
+            if (controllerManager.precessKeyInput(keyCode, event)) {
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void onTakeoffLandButtonClick(View view) {
+        TelloAction.TAKEOFF_LAND.invoke(tello);
     }
 
     public void onChangePhotoVideoButtonClick(View view) {
-        if (tello.getVideoInfo().getVideoMode().equals(VideoInfo.VideoMode.PHOTO)) {
-            tello.getPacketSender().sendChangeVideoAspectPacket(VideoInfo.VideoMode.VIDEO);
-            findViewById(R.id.takePicRecordButton).setBackgroundResource(R.drawable.video_btn);
-        } else {
-            tello.getPacketSender().sendChangeVideoAspectPacket(VideoInfo.VideoMode.PHOTO);
-            findViewById(R.id.takePicRecordButton).setBackgroundResource(R.drawable.photo_btn);
-        }
+        TelloAction.CHANGE_PHOTO_VIDEO.invoke(tello);
+    }
+
+    public void onChangeSpeedButtonClicked(View view) {
+        TelloAction.CHANGE_SPEED.invoke(tello);
     }
 
     public void onVideoSettingsButtonClick(View view) {
-        new VideoSettingsWindow(this, tello, telloSettings).create();
+        View icon = view.findViewById(R.id.videoSettingsImage);
+        icon.animate().rotationBy(360).setDuration(500);
+
+        new VideoSettingsWindow(this, tello).create();
+    }
+
+    public void onHomePageClick(View view) {
+        Intent intent = new Intent(this, HomePageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_home, R.anim.slide_out_main);
+    }
+
+    public void updateExposureValue(int progress) {
+        TextView textView = findViewById(R.id.exposureInfoText);
+        textView.setText(VideoUtils.getExposureString(progress));
+    }
+
+    public void updateBitrateValue(int progress) {
+        TextView textView = findViewById(R.id.bitrateInfoText);
+        textView.setText(VideoUtils.getBitrateString(progress));
+    }
+
+    @Override
+    public void onConnect() {
+        tello.getVideoInfo().startVideoStream((int) (appSettings.getIFrameInterval() * 1000));
+    }
+
+    @Override
+    public void onDisconnect() {
+    }
+
+    public Tello getTello() {
+        return tello;
+    }
+
+    public void onButtonAI(View view) {
+        if (!flightModeRunning) {
+            Intent intent = new Intent(this, FlightModesActivity.class);
+            startActivity(intent);
+        } else {
+            TelloAction.STOP_ALL.invoke(tello);
+            setFlightModeRunning(false);
+        }
+    }
+
+    public void setFlightModeRunning(boolean running) {
+        if (running && !flightModeRunning) {
+            findViewById(R.id.flightModesButton).setBackgroundResource(R.drawable.ic_round_cancel_24);
+            flightModeRunning = true;
+        } else if (!running && flightModeRunning) {
+            findViewById(R.id.flightModesButton).setBackgroundResource(R.drawable.ic_round_smart_toy_48);
+            flightModeRunning = false;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utils.exit();
+    }
+
+    public void onTakePhotoVideoClick(View view) {
+        tello.getVideoInfo().takePicture();
     }
 }

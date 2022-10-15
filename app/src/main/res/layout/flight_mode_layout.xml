@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="name"
+            type="java.lang.String" />
+
+        <variable
+            name="description"
+            type="java.lang.String" />
+
+        <variable
+            name="image"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="220dp"
+        android:layout_height="180dp"
+        android:onClick="onFlightModeClick">
+
+        <ImageView
+            android:id="@+id/flightModeFrame"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:background="@drawable/flight_mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/flightModePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@{image}"
+            android:backgroundTint="@color/very_light_grey"
+            app:layout_constraintBottom_toBottomOf="@+id/flightModeFrame"
+            app:layout_constraintEnd_toEndOf="@id/flightModeFrame"
+            app:layout_constraintStart_toStartOf="@id/flightModeFrame"
+            app:layout_constraintTop_toTopOf="@+id/flightModeFrame" />
+
+        <TextView
+            android:id="@+id/flightModeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="@{name}"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/flightModeFrame"
+            app:layout_constraintTop_toBottomOf="@+id/flightModeFrame" />
+
+        <TextView
+            android:id="@+id/flightModeDescription"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:text="@{description}"
+            android:textColor="@color/very_light_grey"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="@+id/flightModeText"
+            app:layout_constraintTop_toBottomOf="@+id/flightModeText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

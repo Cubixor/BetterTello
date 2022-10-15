@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/home_page_bg"
+        tools:context=".FlightModesActivity">
+
+        <View
+            android:id="@+id/settingsLine1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="48dp"
+            android:background="@color/light_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageButton
+            android:id="@+id/flightModesBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_round_arrow_back_ios_new_60"
+            android:onClick="onBackClick"
+            app:layout_constraintBottom_toTopOf="@+id/settingsLine1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/flightModesInfo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_round_info_24"
+            android:onClick="onInfoClick"
+            app:layout_constraintBottom_toTopOf="@+id/settingsLine1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/flightModesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/flight_modes"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/settingsLine1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsLine1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/flightModesOriginalText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/flight_modes_original"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <HorizontalScrollView
+                    android:id="@+id/flightModesOriginalScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@+id/flightModesOriginalText">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/flightModeUpAndAway"
+                            layout="@layout/flight_mode_layout"
+                            android:layout_width="220dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="40dp"
+                            app:description="@{@string/flight_mode_up_and_away_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_up_and_away}" />
+
+                        <include
+                            android:id="@+id/flightModeCircle"
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_circle_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_circle}" />
+
+                        <include
+                            android:id="@+id/flightMode360Video"
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_360_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_360}" />
+
+                        <include
+                            android:id="@+id/flightModeBounce"
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_bounce_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_bounce}" />
+
+                        <include
+                            android:id="@+id/flightMode8DFlips"
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_8D_flips_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_8D_flips}" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/flightModesAutopilotText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/flight_modes_autopilot"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flightModesOriginalScrollView" />
+
+                <HorizontalScrollView
+                    android:id="@+id/flightModesAutopilotScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@+id/flightModesAutopilotText">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            android:layout_width="220dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="40dp"
+                            app:description="@{@string/flight_mode_smart_dronie_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_smart_dronie}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_smart_circle_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_smart_circle}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_smart_360_video_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_smart_360_video}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_360_panorama_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_360_panorama}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_helix_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_helix}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_boomerang_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_boomerang}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_rocket_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_rocket}" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/flightModesAIText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/flight_modes_ai"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flightModesAutopilotScrollView" />
+
+                <HorizontalScrollView
+                    android:id="@+id/flightModesAIScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="16dp"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@+id/flightModesAIText">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            android:layout_width="220dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="40dp"
+                            app:description="@{@string/flight_mode_hand_control_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_hand_control}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_vr_head_control_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_vr_head_control}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_face_tracking_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_face_tracking}" />
+
+                        <include
+                            layout="@layout/flight_mode_layout"
+                            app:description="@{@string/flight_mode_object_tracking_description}"
+                            app:image="@{@drawable/ic_baseline_question_mark_24}"
+                            app:name="@{@string/flight_mode_object_tracking}" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flightModesAIScrollView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FragmentSettingsController">
+
+
+        <Spinner
+            android:id="@+id/controllerTitle"
+            android:layout_width="160dp"
+            android:layout_height="42dp"
+            android:layout_marginBottom="-20dp"
+            android:background="@drawable/button_background"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/controllerImage"
+            app:layout_constraintEnd_toEndOf="@id/controllerGuideLine"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/controllerImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/xbox"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/controllerGuideLine"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.35" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/controllerGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
+
+        <TextView
+            android:id="@+id/controllerMapping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/settings_controller_mapping"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+            app:layout_constraintStart_toStartOf="@+id/controllerGuideLine"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@color/transparent"
+            android:onClick="onButtonRestore"
+            android:src="@drawable/ic_round_settings_backup_restore_24"
+            app:layout_constraintBottom_toBottomOf="@+id/controllerMapping"
+            app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+            app:layout_constraintTop_toTopOf="@+id/controllerMapping" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/controllerGuideLine"
+            app:layout_constraintTop_toBottomOf="@+id/controllerMapping">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/controllerYaw"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_yaw}" />
+
+                <include
+                    android:id="@+id/controllerThrottle"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_throttle}" />
+
+                <include
+                    android:id="@+id/controllerRoll"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_roll}" />
+
+                <include
+                    android:id="@+id/controllerPitch"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_pitch}" />
+
+                <include
+                    android:id="@+id/controllerTakeoffLand"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_takeoff_land}" />
+
+                <include
+                    android:id="@+id/controllerThrowTakeoffHandLand"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_throw_takeoff_hand_land}" />
+
+                <include
+                    android:id="@+id/controllerStartMotors"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_start_motors}" />
+
+                <include
+                    android:id="@+id/controllerChangeSpeed"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_change_speed}" />
+
+                <include
+                    android:id="@+id/controllerChangePhotoVideo"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_change_photo_video}" />
+
+                <include
+                    android:id="@+id/controllerIncreaseExposure"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_increase_exposure}" />
+
+                <include
+                    android:id="@+id/controllerDecreaseExposure"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_decrease_exposure}" />
+
+                <include
+                    android:id="@+id/controllerIncreaseBitrate"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_increase_bitrate}" />
+
+                <include
+                    android:id="@+id/controllerDecreaseBitrate"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_decrease_bitrate}" />
+
+                <include
+                    android:id="@+id/controllerStop"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_stop}" />
+
+                <include
+                    android:id="@+id/controllerUpAndAway"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_up_and_away}" />
+
+                <include
+                    android:id="@+id/controllerCircle"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_circle}" />
+
+                <include
+                    android:id="@+id/controller360Video"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_360_video}" />
+
+                <include
+                    android:id="@+id/controllerBounce"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_bounce}" />
+
+                <include
+                    android:id="@+id/controllerFlipsMenu"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flips_menu}" />
+
+                <include
+                    android:id="@+id/controllerFlipForward"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_forward}" />
+
+                <include
+                    android:id="@+id/controllerFlipForwardLeft"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_forward_left}" />
+
+                <include
+                    android:id="@+id/controllerFlipForwardRight"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_forward_right}" />
+
+                <include
+                    android:id="@+id/controllerFlipLeft"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_left}" />
+
+                <include
+                    android:id="@+id/controllerFlipRight"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_right}" />
+
+                <include
+                    android:id="@+id/controllerFlipBackward"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_backward}" />
+
+                <include
+                    android:id="@+id/controllerFlipBackwardLeft"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_backward_left}" />
+
+                <include
+                    android:id="@+id/controllerFlipBackwardRight"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_flip_backward_right}" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

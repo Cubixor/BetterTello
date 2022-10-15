@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="90"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:toDegrees="90">
+    <layer-list>
+        <item
+            android:width="25dp"
+            android:height="25dp"
+            android:drawable="@drawable/ic_round_arrow_back_ios_new_60"
+            android:gravity="center" />
+    </layer-list>
+
+</rotate>
