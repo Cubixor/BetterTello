@@ -38,9 +38,6 @@ public class FlightModesActivity extends AppCompatActivity {
     }
 
     private TelloAction getActionByViewID(View view) {
-
-
-
         switch (view.getId()) {
             case (R.id.flightModeUpAndAway):
                 return TelloAction.MODE_UP_AND_AWAY;

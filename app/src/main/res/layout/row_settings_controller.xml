@@ -5,8 +5,12 @@
     <data>
 
         <variable
-            name="text"
-            type="java.lang.String" />
+            name="fragment"
+            type="me.cubixor.bettertello.FragmentSettingsController" />
+
+        <variable
+            name="telloAction"
+            type="me.cubixor.bettertello.tello.TelloAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{text}"
+            android:text="@{telloAction.settingsDescription}"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -43,9 +47,10 @@
             android:autoSizeMaxTextSize="14sp"
             android:autoSizeMinTextSize="8sp"
             android:autoSizeTextType="uniform"
-            android:background="@drawable/button_background"
+            android:background="@{fragment.viewModel.currentButton == telloAction ? @drawable/button_clicked_background : @drawable/button_background }"
             android:maxLines="2"
-            android:onClick="onButtonChange"
+            android:onClick="@{(v) -> fragment.viewModel.changeCurrentButton(telloAction)}"
+            android:text="@{fragment.viewModel.buttonText.get(telloAction)}"
             android:paddingStart="10dp"
             android:paddingTop="4dp"
             android:paddingEnd="10dp"

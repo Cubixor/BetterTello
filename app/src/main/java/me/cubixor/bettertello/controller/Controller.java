@@ -9,13 +9,19 @@ import me.cubixor.bettertello.tello.TelloAction;
 
 public class Controller implements Serializable {
 
+    private final int inAppID;
     private final String descriptor;
     private final String name;
     private final Map<Integer, TelloAction> mappings = new LinkedHashMap<>();
 
-    public Controller(String descriptor, String name) {
+    public Controller(String descriptor, String name, int inAppID) {
         this.descriptor = descriptor;
         this.name = name;
+        this.inAppID=inAppID;
+    }
+
+    public int getInAppID() {
+        return inAppID;
     }
 
     public String getDescriptor() {

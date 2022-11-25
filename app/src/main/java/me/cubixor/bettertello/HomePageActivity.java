@@ -3,6 +3,8 @@ package me.cubixor.bettertello;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,9 +18,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import kotlinx.coroutines.flow.Flow;
 import me.cubixor.bettertello.api.MenuAdapter;
 import me.cubixor.bettertello.api.SpinnerBackgroundCreator;
 import me.cubixor.bettertello.bar.BarStateManager;
+import me.cubixor.bettertello.databinding.ActivityHomePageBinding;
 import me.cubixor.bettertello.utils.Utils;
 
 public class HomePageActivity extends AppCompatActivity {
@@ -76,7 +80,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Utils.exit();
+        finishAffinity();
     }
 
     public void onImageClickEvent(View view) {

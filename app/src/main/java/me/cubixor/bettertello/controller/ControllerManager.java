@@ -9,6 +9,7 @@ import android.view.InputEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import kotlinx.coroutines.flow.MutableStateFlow;
 import me.cubixor.bettertello.Activities;
 import me.cubixor.bettertello.FragmentSettingsController;
 import me.cubixor.bettertello.MainActivity;
@@ -79,6 +80,7 @@ public class ControllerManager implements InputManager.InputDeviceListener {
 
 
         //Check if settings are open, update controllers section
+/*
         SettingsActivity settingsActivity = Activities.getSettings();
         if (settingsActivity != null) {
             if (settingsActivity.getCurrentSection() instanceof SettingsControllerEmptyFragment) {
@@ -87,10 +89,11 @@ public class ControllerManager implements InputManager.InputDeviceListener {
                 FragmentSettingsController fragmentSettingsController = Activities.getSettingsControllerFragment();
 
                 if (fragmentSettingsController != null) {
-                    fragmentSettingsController.updateSpinner(controller);
+                    fragmentSettingsController.updateSpinner(controller.getInAppID());
                 }
             }
         }
+*/
     }
 
     @Override

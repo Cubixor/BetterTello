@@ -23,6 +23,7 @@ import me.cubixor.bettertello.controller.ControllerManager;
 import me.cubixor.bettertello.controller.ControllerUtils;
 import me.cubixor.bettertello.data.AppSettings;
 import me.cubixor.bettertello.data.FileManager;
+import me.cubixor.bettertello.databinding.ActivityMainBinding;
 import me.cubixor.bettertello.tello.TelloAction;
 import me.cubixor.bettertello.tello.TelloStateManager;
 import me.cubixor.bettertello.tello.VideoSettingsWindow;
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements DroneConnectionLi
 
     @Override
     public void onBackPressed() {
-        Utils.exit();
+        finishAffinity();
     }
 
     public void onTakePhotoVideoClick(View view) {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/settingsGeneralFragment">
+
+
+    <fragment
+        android:id="@+id/settingsControllerEmptyFragment"
+        android:name="me.cubixor.bettertello.SettingsControllerEmptyFragment"
+        android:label="fragment_settings_controller_empty"
+        tools:layout="@layout/fragment_settings_controller_empty" />
+    <fragment
+        android:id="@+id/settingsGeneralFragment"
+        android:name="me.cubixor.bettertello.SettingsGeneralFragment"
+        android:label="fragment_settings_general"
+        tools:layout="@layout/fragment_settings_general" />
+    <fragment
+        android:id="@+id/fragmentSettingsController"
+        android:name="me.cubixor.bettertello.FragmentSettingsController"
+        android:label="FragmentSettingsController" />
+</navigation>

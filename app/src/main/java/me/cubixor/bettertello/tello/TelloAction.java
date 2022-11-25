@@ -6,6 +6,7 @@ import android.widget.Button;
 import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
 import me.cubixor.bettertello.data.AppSettings;
+import me.cubixor.bettertello.utils.Utils;
 import me.cubixor.telloapi.api.FlipDirection;
 import me.cubixor.telloapi.api.Tello;
 import me.cubixor.telloapi.api.video.SmartVideoMode;
@@ -207,20 +208,24 @@ public enum TelloAction {
         }
     };
 
-    public static TelloAction fromName(String name) {
+/*    public static TelloAction fromName(String name) {
         for (TelloAction telloAction : TelloAction.values()) {
             if (telloAction.getName().equals(name)) {
                 return telloAction;
             }
         }
         return null;
-    }
+    }*/
 
     public static void handleFlip(Tello tello, FlipDirection direction) {
         if (tello.getDroneState().getBatteryPercentage() > 50) {
             tello.flip(direction);
         }
 
+    }
+
+    public String getSettingsDescription() {
+        return Utils.getStr("settings_controller_" + getName());
     }
 
     public void handleOriginalFlightMode(Tello tello, SmartVideoMode smartVideoMode) {

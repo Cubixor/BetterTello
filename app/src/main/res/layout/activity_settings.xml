@@ -52,6 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -144,15 +145,37 @@
             app:layout_constraintTop_toBottomOf="@id/settingsDroneButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+-->
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:scrollbars="none"
+        app:elevation="0dp"
+        app:itemBackground="@drawable/nav_button"
+        app:itemIconPadding="16dp"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@color/white"
+        app:itemTextAppearance="@style/menu_text_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/settingsLine2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsLine1"
+        app:menu="@menu/settings_menu" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/settingsFragmentView"
-        android:name="me.cubixor.bettertello.SettingsGeneralFragment"
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/settingsLine2"
-        app:layout_constraintTop_toBottomOf="@+id/settingsLine1" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsLine1"
+        app:navGraph="@navigation/settings_nav_graph"
+        tools:layout="@layout/fragment_settings_controller_empty" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="me.cubixor.bettertello.tello.TelloAction" />
+        <import type="me.cubixor.bettertello.api.SpinnerBackgroundCreator" />
+        <import type="me.cubixor.bettertello.api.MenuAdapter" />
+
+        <variable
+            name="fragment"
+            type="me.cubixor.bettertello.FragmentSettingsController" />
+
+    </data>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,6 +30,7 @@
             android:background="@drawable/button_background"
             android:spinnerMode="dropdown"
             android:textAlignment="center"
+            android:onItemSelected="@{(parent,view,position,id) -> fragment.viewModel.selectController(position)}"
             app:layout_constraintBottom_toTopOf="@+id/controllerImage"
             app:layout_constraintEnd_toEndOf="@id/controllerGuideLine"
             app:layout_constraintStart_toStartOf="parent" />
@@ -54,10 +68,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/buttonRestore"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="@color/transparent"
-            android:onClick="onButtonRestore"
+            android:onClick="@{()->fragment.viewModel.resetMappings()}"
             android:src="@drawable/ic_round_settings_backup_restore_24"
             app:layout_constraintBottom_toBottomOf="@+id/controllerMapping"
             app:layout_constraintEnd_toEndOf="@+id/scrollView2"
@@ -78,144 +93,170 @@
 
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include
-                    android:id="@+id/controllerYaw"
-                    layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_yaw}" />
+                <!--
+                                <include
+                                    android:id="@+id/controllerYaw"
+                                    layout="@layout/row_settings_controller"
+                                    app:text="@{@string/settings_controller_yaw}" />
 
-                <include
-                    android:id="@+id/controllerThrottle"
-                    layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_throttle}" />
+                                <include
+                                    android:id="@+id/controllerThrottle"
+                                    layout="@layout/row_settings_controller"
+                                    app:text="@{@string/settings_controller_throttle}" />
 
-                <include
-                    android:id="@+id/controllerRoll"
-                    layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_roll}" />
+                                <include
+                                    android:id="@+id/controllerRoll"
+                                    layout="@layout/row_settings_controller"
+                                    app:text="@{@string/settings_controller_roll}" />
 
-                <include
-                    android:id="@+id/controllerPitch"
-                    layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_pitch}" />
+                                <include
+                                    android:id="@+id/controllerPitch"
+                                    layout="@layout/row_settings_controller"
+                                    app:text="@{@string/settings_controller_pitch}" />
+                -->
 
                 <include
                     android:id="@+id/controllerTakeoffLand"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_takeoff_land}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.TAKEOFF_LAND}" />
 
                 <include
                     android:id="@+id/controllerThrowTakeoffHandLand"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_throw_takeoff_hand_land}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.THROW_TAKEOFF_HAND_LAND}" />
 
                 <include
                     android:id="@+id/controllerStartMotors"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_start_motors}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.START_MOTORS}" />
 
                 <include
                     android:id="@+id/controllerChangeSpeed"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_change_speed}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.CHANGE_SPEED}" />
 
                 <include
                     android:id="@+id/controllerChangePhotoVideo"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_change_photo_video}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.CHANGE_PHOTO_VIDEO}" />
 
                 <include
                     android:id="@+id/controllerIncreaseExposure"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_increase_exposure}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.INCREASE_EXPOSURE}" />
 
                 <include
                     android:id="@+id/controllerDecreaseExposure"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_decrease_exposure}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.DECREASE_EXPOSURE}" />
 
                 <include
                     android:id="@+id/controllerIncreaseBitrate"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_increase_bitrate}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.INCREASE_BITRATE}" />
 
                 <include
                     android:id="@+id/controllerDecreaseBitrate"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_decrease_bitrate}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.DECREASE_BITRATE}" />
 
                 <include
                     android:id="@+id/controllerStop"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_stop}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.STOP_ALL}" />
 
                 <include
                     android:id="@+id/controllerUpAndAway"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_up_and_away}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.MODE_UP_AND_AWAY}" />
 
                 <include
                     android:id="@+id/controllerCircle"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_circle}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.MODE_CIRCLE}" />
 
                 <include
                     android:id="@+id/controller360Video"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_360_video}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.MODE_VIDEO_360}" />
 
                 <include
                     android:id="@+id/controllerBounce"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_bounce}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.MODE_BOUNCE}" />
 
                 <include
                     android:id="@+id/controllerFlipsMenu"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flips_menu}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.MODE_8D_FLIPS}" />
 
                 <include
                     android:id="@+id/controllerFlipForward"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_forward}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_FORWARD}" />
 
                 <include
                     android:id="@+id/controllerFlipForwardLeft"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_forward_left}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_FORWARD_LEFT}" />
 
                 <include
                     android:id="@+id/controllerFlipForwardRight"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_forward_right}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_FORWARD_RIGHT}" />
 
                 <include
                     android:id="@+id/controllerFlipLeft"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_left}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_LEFT}" />
 
                 <include
                     android:id="@+id/controllerFlipRight"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_right}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_RIGHT}" />
 
                 <include
                     android:id="@+id/controllerFlipBackward"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_backward}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_BACKWARD}" />
 
                 <include
                     android:id="@+id/controllerFlipBackwardLeft"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_backward_left}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_BACKWARD_LEFT}" />
 
                 <include
                     android:id="@+id/controllerFlipBackwardRight"
                     layout="@layout/row_settings_controller"
-                    app:text="@{@string/settings_controller_flip_backward_right}" />
+                    app:fragment="@{fragment}"
+                    app:telloAction="@{TelloAction.FLIP_BACKWARD_RIGHT}" />
 
 
             </LinearLayout>
