@@ -44,7 +44,7 @@ public class FragmentSettingsControllerViewModel extends ViewModel {
     }
 
 
-    private void setMapping(TelloAction telloAction , int keyCode){
+    private void setMapping(TelloAction telloAction, int keyCode) {
         updateButtonText(telloAction, KeyCodes.keyCodes[keyCode]);
         appSettings.addControllerMapping(getSelectedController().getValue(), telloAction, keyCode);
     }
@@ -135,7 +135,7 @@ public class FragmentSettingsControllerViewModel extends ViewModel {
             clearMapping(controller.getMappings().get(keyCode));
         }
 
-        setMapping(telloAction,keyCode);
+        setMapping(telloAction, keyCode);
         currentButton.setValue(null);
 
         return true;

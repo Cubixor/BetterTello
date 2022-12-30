@@ -1,200 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_page"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/home_page_bg"
-    tools:context=".HomePageActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <ImageView
-        android:id="@+id/droneImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:onClick="onImageClickEvent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".50"
-        app:srcCompat="@drawable/tello" />
-
-    <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="120dp"
-        android:layout_height="12dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logofull" />
-
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/ic_round_settings_48"
-        android:onClick="onSettingsClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/routePlannerButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_round_map_48"
-        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/historyButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_round_history_48"
-        app:layout_constraintEnd_toStartOf="@+id/routePlannerButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="viewModel"
+            type="me.cubixor.bettertello.HomePageViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/homeStateLayout"
-        android:layout_width="520dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="-20dp"
-        android:elevation="10px"
-        android:outlineProvider="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:id="@+id/home_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/home_page_bg"
+        tools:context=".HomePageActivity">
 
-        <com.sanojpunchihewa.glowbutton.GlowButton
-            android:id="@+id/homeStateBar"
-            android:layout_width="520dp"
-            android:layout_height="120dp"
-            android:foreground="@drawable/bar_ok_full"
-            android:foregroundGravity="center"
-            android:onClick="onStateClick"
-            app:buttonColor="@color/transparent"
-            app:glowColor="#0B300D"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:pressedGlowSize="40dp"
-            app:unpressedGlowSize="40dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/stateText2"
-                android:layout_width="260dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="60dp"
-                android:autoSizeMaxTextSize="24sp"
-                android:autoSizeMinTextSize="16sp"
-                android:autoSizeTextType="uniform"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="@string/state_ready_to_fly"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/batteryText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="60dp"
-            android:text="0%"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/batteryIndicator2"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="50dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="12dp"
-            android:max="100"
-            android:progressDrawable="@drawable/battery"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/batteryText2"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/wifiIndicator2"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="16dp"
+            android:id="@+id/droneImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="onImageClickEvent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/batteryIndicator2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".75"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_round_signal_wifi_0_bar_24" />
+            app:layout_constraintWidth_percent=".50"
+            app:srcCompat="@drawable/tello" />
+
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="120dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logofull" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_round_settings_48"
+            android:onClick="onSettingsClick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/routePlannerButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_round_map_48"
+            app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/historyButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_round_history_48"
+            app:layout_constraintEnd_toStartOf="@+id/routePlannerButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/homeStateLayout"
+            android:layout_width="520dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="-20dp"
+            android:elevation="10px"
+            android:outlineProvider="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.sanojpunchihewa.glowbutton.GlowButton
+                android:id="@+id/homeStateBar"
+                android:layout_width="520dp"
+                android:layout_height="120dp"
+                android:foreground="@drawable/bar_ok_full"
+                android:foregroundGravity="center"
+                android:onClick="onStateClick"
+                app:buttonColor="@color/transparent"
+                app:glowColor="#0B300D"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:pressedGlowSize="40dp"
+                app:unpressedGlowSize="40dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/stateText2"
+                    android:layout_width="260dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="60dp"
+                    android:autoSizeMaxTextSize="24sp"
+                    android:autoSizeMinTextSize="16sp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/batteryText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="60dp"
+                android:text="0%"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/batteryIndicator2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="12dp"
+                android:max="100"
+                android:progressDrawable="@drawable/battery"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/batteryText2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/wifiIndicator2"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/batteryIndicator2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_signal_wifi_0_bar_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.sanojpunchihewa.glowbutton.GlowButton
+            android:id="@+id/expandStatesButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="-40dp"
+            android:foreground="@drawable/bar_ok_expand"
+            android:onClick="@{v -> viewModel.statesExpanded ? viewModel.shrinkStates() : viewModel.expandStates()}"
+            android:outlineProvider="none"
+            android:visibility="invisible"
+            app:buttonColor="@color/transparent"
+            app:glowColor="@color/ok_glow"
+            app:layout_constraintBottom_toBottomOf="@+id/homeStateLayout"
+            app:layout_constraintStart_toEndOf="@+id/homeStateLayout"
+            app:layout_constraintTop_toTopOf="@+id/homeStateLayout"
+            app:pressedGlowSize="20dp"
+            app:unpressedGlowSize="20dp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_background"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!--
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="440dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bar_warning_full"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:text="@string/state_low_light"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/homeStateLayout"
+                app:layout_constraintEnd_toEndOf="@+id/homeStateLayout"
+                app:layout_constraintStart_toStartOf="@+id/homeStateLayout"
+                app:layout_constraintTop_toTopOf="@+id/homeStateLayout" />
+        -->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <com.sanojpunchihewa.glowbutton.GlowButton
-        android:id="@+id/expandStatesButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="-40dp"
-        android:foreground="@drawable/bar_ok_expand"
-        android:onClick="onStatesExpandClick"
-        android:outlineProvider="none"
-        app:buttonColor="@color/transparent"
-        app:glowColor="@color/ok_glow"
-        app:layout_constraintBottom_toBottomOf="@+id/homeStateLayout"
-        app:layout_constraintStart_toEndOf="@+id/homeStateLayout"
-        app:layout_constraintTop_toTopOf="@+id/homeStateLayout"
-        app:pressedGlowSize="20dp"
-        app:unpressedGlowSize="20dp" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_background"
-        android:spinnerMode="dropdown"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <!--
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="440dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bar_warning_full"
-            android:gravity="center_vertical"
-            android:paddingStart="20dp"
-            android:text="@string/state_low_light"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/homeStateLayout"
-            app:layout_constraintEnd_toEndOf="@+id/homeStateLayout"
-            app:layout_constraintStart_toStartOf="@+id/homeStateLayout"
-            app:layout_constraintTop_toTopOf="@+id/homeStateLayout" />
-    -->
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -121,7 +121,7 @@ public class ControllerUtils {
         return 0;
     }
 
-    public static Controller selectController(){
+    public static Controller selectController() {
         for (InputDevice inputDevice : ControllerUtils.getConnectedInputDevices()) {
             Controller controller = ControllerUtils.getControllerByID(inputDevice.getDescriptor());
             if (controller != null) {

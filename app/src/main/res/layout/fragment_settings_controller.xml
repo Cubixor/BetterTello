@@ -6,7 +6,9 @@
     <data>
 
         <import type="me.cubixor.bettertello.tello.TelloAction" />
+
         <import type="me.cubixor.bettertello.api.SpinnerBackgroundCreator" />
+
         <import type="me.cubixor.bettertello.api.MenuAdapter" />
 
         <variable
@@ -28,9 +30,9 @@
             android:layout_height="42dp"
             android:layout_marginBottom="-20dp"
             android:background="@drawable/button_background"
+            android:onItemSelected="@{(parent,view,position,id) -> fragment.viewModel.selectController(position)}"
             android:spinnerMode="dropdown"
             android:textAlignment="center"
-            android:onItemSelected="@{(parent,view,position,id) -> fragment.viewModel.selectController(position)}"
             app:layout_constraintBottom_toTopOf="@+id/controllerImage"
             app:layout_constraintEnd_toEndOf="@id/controllerGuideLine"
             app:layout_constraintStart_toStartOf="parent" />

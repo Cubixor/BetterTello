@@ -1,8 +1,8 @@
-package me.cubixor.bettertello.bar;
+package me.cubixor.bettertello.bar
 
-import me.cubixor.bettertello.R;
+import me.cubixor.bettertello.R
 
-public enum BarState {
+enum class BarState(val textPath: Int, val barColor: BarColor, val priority: Int) {
     READY_TO_FLY(R.string.state_ready_to_fly, BarColor.OK, 0),
     FLYING(R.string.state_flying, BarColor.OK, 0),
     NOT_CONNECTED(R.string.state_not_connected, BarColor.NEUTRAL, 0),
@@ -20,25 +20,4 @@ public enum BarState {
     STRONG_WIFI_INTERFERENCE(R.string.state_strong_wifi_interference, BarColor.WARNING, 2),
     LOW_LIGHT(R.string.state_low_light, BarColor.WARNING, 1);
 
-    private final int textPath;
-    private final BarColor barColor;
-    private final int priority;
-
-    BarState(int textPath, BarColor color, int priority) {
-        this.textPath = textPath;
-        this.barColor = color;
-        this.priority = priority;
-    }
-
-    public int getTextPath() {
-        return textPath;
-    }
-
-    public BarColor getBarColor() {
-        return barColor;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
 }

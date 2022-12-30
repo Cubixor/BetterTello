@@ -2,7 +2,6 @@ package me.cubixor.bettertello.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -21,7 +20,7 @@ public class Utils {
     }
 
     public static String getStr(String aString) {
-        int resId =  App.getRes().getIdentifier(aString, "string", BuildConfig.APPLICATION_ID);
+        int resId = App.getRes().getIdentifier(aString, "string", BuildConfig.APPLICATION_ID);
         return getStr(resId);
     }
 

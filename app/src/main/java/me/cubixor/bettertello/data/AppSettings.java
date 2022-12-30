@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import android.view.InputDevice;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -16,15 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-import kotlin.Unit;
-import kotlin.coroutines.Continuation;
-import kotlin.coroutines.CoroutineContext;
-import kotlinx.coroutines.flow.Flow;
-import kotlinx.coroutines.flow.FlowCollector;
-import kotlinx.coroutines.flow.MutableStateFlow;
-import kotlinx.coroutines.flow.StateFlow;
 import me.cubixor.bettertello.Activities;
 import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
@@ -180,7 +169,7 @@ public class AppSettings implements Serializable {
     }
 
     public void addController(InputDevice inputDevice) {
-        Controller controller = new Controller(inputDevice.getDescriptor(), inputDevice.getName(), controllers.size()+1);
+        Controller controller = new Controller(inputDevice.getDescriptor(), inputDevice.getName(), controllers.size() + 1);
         controllers.add(controller);
 
         saveControllers();

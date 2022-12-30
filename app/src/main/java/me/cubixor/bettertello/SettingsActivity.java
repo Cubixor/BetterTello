@@ -1,19 +1,12 @@
 package me.cubixor.bettertello;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
-import androidx.activity.OnBackPressedDispatcher;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
@@ -46,7 +39,6 @@ public class SettingsActivity extends AppCompatActivity {
         NavigationView navView = binding.navigationView;
         NavigationUI.setupWithNavController(navView, navController);
     }
-
 
 
     public void onBackClick(View view) {

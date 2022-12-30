@@ -9,13 +9,8 @@ import android.view.InputEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
-import kotlinx.coroutines.flow.MutableStateFlow;
-import me.cubixor.bettertello.Activities;
-import me.cubixor.bettertello.FragmentSettingsController;
 import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
-import me.cubixor.bettertello.SettingsActivity;
-import me.cubixor.bettertello.SettingsControllerEmptyFragment;
 import me.cubixor.bettertello.data.AppSettings;
 import me.cubixor.bettertello.tello.TelloAction;
 import me.cubixor.telloapi.api.Tello;

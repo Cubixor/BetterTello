@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import me.cubixor.bettertello.Activities;
-import me.cubixor.bettertello.HomePageActivity;
+import me.cubixor.bettertello.App;
 import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
 import me.cubixor.bettertello.bar.BarState;
@@ -34,7 +33,7 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
 
 
     public TelloStateManager() {
-        barStateManager = new BarStateManager();
+        barStateManager = App.getBarStateManager();
         view = MainActivity.getActivity();
     }
 
@@ -47,11 +46,11 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
 
     @Override
     public void onDisconnect() {
-        HomePageActivity homePageActivity = Activities.getHomePage();
+        /*HomePageActivity homePageActivity = Activities.getHomePage();
         if (homePageActivity != null) {
             barStateManager.shrinkStates(homePageActivity, homePageActivity.findViewById(R.id.expandStatesButton));
             barStateManager.hideExpandButton();
-        }
+        }*/
         barStateManager.addState(BarState.LOST_CONNECTION);
     }
 
@@ -85,6 +84,8 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
             imageView.setImageDrawable(drawable);
         });
 
+        //TODO Activity reference
+/*
         HomePageActivity activity = Activities.getHomePage();
         if (activity != null) {
             activity.runOnUiThread(() -> {
@@ -93,6 +94,7 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
                 imageView.setImageDrawable(drawable);
             });
         }
+*/
     }
 
     @Override
@@ -125,6 +127,8 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
         barStateManager.addRemoveState(BarState.OVERHEAT, droneStatus.isOverheat());
         barStateManager.addRemoveState(BarState.TOO_WINDY, droneStatus.isTooWindy());
 
+        //TODO Activity reference
+/*
         HomePageActivity activity = Activities.getHomePage();
         if (activity != null) {
             activity.runOnUiThread(() -> {
@@ -134,6 +138,7 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
                 batteryIndicator.setProgress(droneStatus.getBatteryPercentage(), true);
             });
         }
+*/
 
         view.runOnUiThread(() -> {
 

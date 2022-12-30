@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,14 +21,15 @@ import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 import me.cubixor.bettertello.api.JoystickView;
 import me.cubixor.bettertello.api.OnSwipeListener;
+import me.cubixor.bettertello.bar.BarState;
 import me.cubixor.bettertello.controller.ControllerManager;
 import me.cubixor.bettertello.controller.ControllerUtils;
 import me.cubixor.bettertello.data.AppSettings;
 import me.cubixor.bettertello.data.FileManager;
-import me.cubixor.bettertello.databinding.ActivityMainBinding;
 import me.cubixor.bettertello.tello.TelloAction;
 import me.cubixor.bettertello.tello.TelloStateManager;
 import me.cubixor.bettertello.tello.VideoSettingsWindow;
+import me.cubixor.bettertello.utils.BarAnimationUtils;
 import me.cubixor.bettertello.utils.Utils;
 import me.cubixor.bettertello.utils.VideoUtils;
 import me.cubixor.telloapi.api.FlipDirection;
@@ -263,5 +266,22 @@ public class MainActivity extends AppCompatActivity implements DroneConnectionLi
 
     public void onTakePhotoVideoClick(View view) {
         tello.getVideoInfo().takePicture();
+    }
+
+    private void changeBarMainActivity(BarState from, BarState to) {
+        Drawable d1 = from.getBarColor().getMainViewDrawable(this);
+        Drawable d2 = to.getBarColor().getMainViewDrawable(this);
+
+        Drawable[] dw = {d1, d2};
+
+        TransitionDrawable transitionDrawable = new TransitionDrawable(dw);
+        ImageView bar = MainActivity.getActivity().findViewById(R.id.topBackground);
+        bar.setImageDrawable(transitionDrawable);
+        transitionDrawable.setCrossFadeEnabled(true);
+        transitionDrawable.startTransition(600);
+
+
+        TextView stateText = MainActivity.getActivity().findViewById(R.id.stateText);
+        BarAnimationUtils.changeText(this, to, stateText);
     }
 }

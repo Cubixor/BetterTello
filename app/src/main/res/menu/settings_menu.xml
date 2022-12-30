@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/settingsGeneralFragment"
-        android:title="@string/settings_general"
+    <item
+        android:id="@+id/settingsGeneralFragment"
+        android:checkable="true"
         android:icon="@drawable/ic_round_settings_48"
-        android:checkable="true" />
-    <item android:id="@+id/settingsControllerEmptyFragment"
-        android:title="@string/settings_controller"
+        android:title="@string/settings_general" />
+    <item
+        android:id="@+id/settingsControllerEmptyFragment"
+        android:checkable="true"
         android:icon="@drawable/ic_round_sports_esports_24"
-        android:checkable="true"/>
+        android:title="@string/settings_controller" />
 </menu>

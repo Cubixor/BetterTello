@@ -1,4 +1,5 @@
 <resources>
+    <string name="empty" />
     <string name="app_name">BetterTello</string>
     <string name="slow_letter">S</string>
     <string name="fast_letter">F</string>

@@ -17,7 +17,7 @@ public class Controller implements Serializable {
     public Controller(String descriptor, String name, int inAppID) {
         this.descriptor = descriptor;
         this.name = name;
-        this.inAppID=inAppID;
+        this.inAppID = inAppID;
     }
 
     public int getInAppID() {
