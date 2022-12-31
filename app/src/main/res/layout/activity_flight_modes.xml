@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="me.cubixor.bettertello.tello.TelloAction" />
+
+        <variable
+            name="activity"
+            type="me.cubixor.bettertello.FlightModesActivity" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -98,6 +107,8 @@
                             android:layout_width="220dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="40dp"
+                            app:action="@{TelloAction.MODE_UP_AND_AWAY}"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_up_and_away_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_up_and_away}" />
@@ -105,6 +116,8 @@
                         <include
                             android:id="@+id/flightModeCircle"
                             layout="@layout/flight_mode_layout"
+                            app:action="@{TelloAction.MODE_CIRCLE}"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_circle_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_circle}" />
@@ -112,6 +125,8 @@
                         <include
                             android:id="@+id/flightMode360Video"
                             layout="@layout/flight_mode_layout"
+                            app:action="@{TelloAction.MODE_VIDEO_360}"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_360_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_360}" />
@@ -119,6 +134,8 @@
                         <include
                             android:id="@+id/flightModeBounce"
                             layout="@layout/flight_mode_layout"
+                            app:action="@{TelloAction.MODE_BOUNCE}"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_bounce_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_bounce}" />
@@ -126,6 +143,8 @@
                         <include
                             android:id="@+id/flightMode8DFlips"
                             layout="@layout/flight_mode_layout"
+                            app:action="@{TelloAction.MODE_8D_FLIPS}"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_8D_flips_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_8D_flips}" />
@@ -163,42 +182,49 @@
                             android:layout_width="220dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="40dp"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_smart_dronie_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_smart_dronie}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_smart_circle_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_smart_circle}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_smart_360_video_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_smart_360_video}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_360_panorama_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_360_panorama}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_helix_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_helix}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_boomerang_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_boomerang}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_rocket_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_rocket}" />
@@ -236,24 +262,28 @@
                             android:layout_width="220dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="40dp"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_hand_control_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_hand_control}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_vr_head_control_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_vr_head_control}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_face_tracking_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_face_tracking}" />
 
                         <include
                             layout="@layout/flight_mode_layout"
+                            app:activity="@{activity}"
                             app:description="@{@string/flight_mode_object_tracking_description}"
                             app:image="@{@drawable/ic_baseline_question_mark_24}"
                             app:name="@{@string/flight_mode_object_tracking}" />

@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="activity"
+            type="me.cubixor.bettertello.FlightModesActivity" />
+
+        <variable
             name="name"
             type="java.lang.String" />
 
@@ -16,12 +20,18 @@
         <variable
             name="image"
             type="android.graphics.drawable.Drawable" />
+
+        <import type="me.cubixor.bettertello.tello.TelloAction" />
+
+        <variable
+            name="action"
+            type="TelloAction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="220dp"
         android:layout_height="180dp"
-        android:onClick="onFlightModeClick">
+        android:onClick="@{(v) ->activity.onFlightModeClick(action)}">
 
         <ImageView
             android:id="@+id/flightModeFrame"

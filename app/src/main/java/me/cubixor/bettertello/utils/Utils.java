@@ -16,11 +16,11 @@ public class Utils {
     }
 
     public static String getStr(int id) {
-        return App.getRes().getString(id);
+        return App.getInstance().getRes().getString(id);
     }
 
     public static String getStr(String aString) {
-        int resId = App.getRes().getIdentifier(aString, "string", BuildConfig.APPLICATION_ID);
+        int resId = App.getInstance().getRes().getIdentifier(aString, "string", BuildConfig.APPLICATION_ID);
         return getStr(resId);
     }
 

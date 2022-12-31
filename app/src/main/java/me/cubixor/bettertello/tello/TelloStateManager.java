@@ -18,7 +18,9 @@ import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
 import me.cubixor.bettertello.bar.BarState;
 import me.cubixor.bettertello.bar.BarStateManager;
+import me.cubixor.bettertello.data.AppSettings;
 import me.cubixor.telloapi.api.DroneStatus;
+import me.cubixor.telloapi.api.Tello;
 import me.cubixor.telloapi.api.listeners.DroneConnectionListener;
 import me.cubixor.telloapi.api.listeners.DroneStatusListener;
 import me.cubixor.telloapi.api.video.SmartVideoMode;
@@ -27,18 +29,22 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
 
     private final BarStateManager barStateManager;
     private final MainActivity view;
+    private final Tello tello;
     private long lastPacketTime;
     private int lastPacketID = 0;
     private long flightTime = 0;
 
 
     public TelloStateManager() {
-        barStateManager = App.getBarStateManager();
+        barStateManager = App.getInstance().getBarStateManager();
         view = MainActivity.getActivity();
+        tello = App.getInstance().getTello();
     }
 
     @Override
     public void onConnect() {
+        tello.getVideoInfo().startVideoStream((int) (AppSettings.getInstance().getIFrameInterval() * 1000));
+
         barStateManager.addState(BarState.READY_TO_FLY);
         barStateManager.removeState(BarState.NOT_CONNECTED);
         barStateManager.removeState(BarState.LOST_CONNECTION);
@@ -164,7 +170,7 @@ public class TelloStateManager implements DroneStatusListener, DroneConnectionLi
             batteryIndicator.setProgress(droneStatus.getBatteryPercentage(), true);
 
             TextView speedText = view.findViewById(R.id.speedText);
-            speedText.setText(view.getString(R.string.speed, view.getTello().getDroneState().getFlySpeed()));
+            speedText.setText(view.getString(R.string.speed, tello.getDroneState().getFlySpeed()));
 
             TextView heightText = view.findViewById(R.id.heightText);
             heightText.setText(view.getString(R.string.height, droneStatus.getHeight()));

@@ -36,7 +36,7 @@ import me.cubixor.telloapi.api.FlipDirection;
 import me.cubixor.telloapi.api.Tello;
 import me.cubixor.telloapi.api.listeners.DroneConnectionListener;
 
-public class MainActivity extends AppCompatActivity implements DroneConnectionListener {
+public class MainActivity extends AppCompatActivity{
 
     private static MainActivity instance;
     private AppSettings appSettings;
@@ -84,12 +84,8 @@ public class MainActivity extends AppCompatActivity implements DroneConnectionLi
                 .setBlurAutoUpdate(true);
 
 
-        tello = Tello.build();
-        tello.addConnectionListener(this);
-        TelloStateManager telloStateManager = new TelloStateManager();
-        tello.addConnectionListener(telloStateManager);
-        tello.addDroneStatusListener(telloStateManager);
-        tello.addFileListener(new FileManager());
+
+        tello= App.getInstance().getTello();
 
         VideoView videoView = new VideoView();
         tello.addVideoListener(videoView);
@@ -224,19 +220,6 @@ public class MainActivity extends AppCompatActivity implements DroneConnectionLi
     public void updateBitrateValue(int progress) {
         TextView textView = findViewById(R.id.bitrateInfoText);
         textView.setText(VideoUtils.getBitrateString(progress));
-    }
-
-    @Override
-    public void onConnect() {
-        tello.getVideoInfo().startVideoStream((int) (appSettings.getIFrameInterval() * 1000));
-    }
-
-    @Override
-    public void onDisconnect() {
-    }
-
-    public Tello getTello() {
-        return tello;
     }
 
     public void onButtonAI(View view) {

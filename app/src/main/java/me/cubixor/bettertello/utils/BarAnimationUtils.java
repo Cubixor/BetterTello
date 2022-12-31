@@ -14,18 +14,6 @@ import me.cubixor.bettertello.bar.BarState;
 
 public class BarAnimationUtils {
 
-    public static Animation getAnimation(int fromY, int toY) {
-        Animation anim = new TranslateAnimation(
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0,
-                fromY == 0 ? Animation.RELATIVE_TO_SELF : Animation.ABSOLUTE, fromY,
-                toY == 0 ? Animation.RELATIVE_TO_SELF : Animation.ABSOLUTE, toY);
-        anim.setDuration(300);
-        anim.setFillAfter(true);
-
-        return anim;
-    }
-
     public static void changeText(Context context, BarState to, TextView textView) {
         Animation out = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.slide_out_text);
         Animation in = android.view.animation.AnimationUtils.loadAnimation(context, R.anim.slide_in_text);

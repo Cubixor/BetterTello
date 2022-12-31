@@ -9,6 +9,7 @@ import android.view.InputEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import me.cubixor.bettertello.App;
 import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
 import me.cubixor.bettertello.data.AppSettings;
@@ -23,7 +24,7 @@ public class ControllerManager implements InputManager.InputDeviceListener {
 
 
     public ControllerManager() {
-        tello = MainActivity.getActivity().getTello();
+        tello = App.getInstance().getTello();
         appSettings = AppSettings.getInstance();
         inputManager = (InputManager) MainActivity.getActivity().getSystemService(Context.INPUT_SERVICE);
         inputManager.registerInputDeviceListener(this, null);

@@ -101,25 +101,25 @@
                 android:orientation="vertical">
 
                 <!--
-                                <include
-                                    android:id="@+id/controllerYaw"
-                                    layout="@layout/row_settings_controller"
-                                    app:text="@{@string/settings_controller_yaw}" />
+                <include
+                    android:id="@+id/controllerYaw"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_yaw}" />
 
-                                <include
-                                    android:id="@+id/controllerThrottle"
-                                    layout="@layout/row_settings_controller"
-                                    app:text="@{@string/settings_controller_throttle}" />
+                <include
+                    android:id="@+id/controllerThrottle"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_throttle}" />
 
-                                <include
-                                    android:id="@+id/controllerRoll"
-                                    layout="@layout/row_settings_controller"
-                                    app:text="@{@string/settings_controller_roll}" />
+                <include
+                    android:id="@+id/controllerRoll"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_roll}" />
 
-                                <include
-                                    android:id="@+id/controllerPitch"
-                                    layout="@layout/row_settings_controller"
-                                    app:text="@{@string/settings_controller_pitch}" />
+                <include
+                    android:id="@+id/controllerPitch"
+                    layout="@layout/row_settings_controller"
+                    app:text="@{@string/settings_controller_pitch}" />
                 -->
 
                 <include

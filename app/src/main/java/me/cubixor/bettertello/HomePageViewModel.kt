@@ -8,7 +8,7 @@ import me.cubixor.bettertello.bar.BarStateManager
 
 class HomePageViewModel : ViewModel() {
 
-    private val barStateManager: BarStateManager = App.getBarStateManager()
+    private val barStateManager: BarStateManager = App.getInstance().barStateManager
 
     private val _expandButtonShown: MutableLiveData<Boolean> = MutableLiveData(false)
     val expandButtonShown: LiveData<Boolean> = _expandButtonShown

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.TranslateAnimation
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -193,7 +194,7 @@ class HomePageActivity : AppCompatActivity() {
         constraintSet.connect(id, ConstraintSet.START, R.id.homeStateLayout, ConstraintSet.START)
         constraintSet.applyTo(constraintLayout)
         stateBars.add(index - 1, textView)
-        val inAnim = BarAnimationUtils.getAnimation(
+        val inAnim = getAnimation(
             0, -Utils.dpToPixels(this, index * 50)
         )
         inAnim.setAnimationListener(object : Animation.AnimationListener {
@@ -207,7 +208,7 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     private fun slideOutState(textView: TextView) {
-        val out = BarAnimationUtils.getAnimation(
+        val out = getAnimation(
             -Utils.dpToPixels(
                 this, (stateBars.indexOf(textView) + 1) * 50
             ), 0
@@ -226,7 +227,7 @@ class HomePageActivity : AppCompatActivity() {
     private fun slideOneStep(index: Int, up: Boolean) {
         val textView: TextView = stateBars[index]
 
-        val slide = BarAnimationUtils.getAnimation(
+        val slide = getAnimation(
             -Utils.dpToPixels(this, (index + (if (!up) 2 else 0)) * 50),
             -Utils.dpToPixels(this, (index + (if (up) 1 else 1)) * 50)
         )
@@ -316,6 +317,20 @@ class HomePageActivity : AppCompatActivity() {
         val expandButton = binding.expandStatesButton
         expandButton.foreground = currentBar.barColor.getExpandDrawable(this)
         expandButton.glowColor = currentBar.barColor.getGlowColor(this)
+    }
+
+    private fun getAnimation(fromY: Int, toY: Int): Animation {
+        val anim: Animation = TranslateAnimation(
+            Animation.RELATIVE_TO_SELF, 0F,
+            Animation.RELATIVE_TO_SELF, 0F,
+            if (fromY == 0) Animation.RELATIVE_TO_SELF else Animation.ABSOLUTE, fromY.toFloat(),
+            if (toY == 0) Animation.RELATIVE_TO_SELF else Animation.ABSOLUTE, toY.toFloat()
+        ).apply {
+            duration = 300
+            fillAfter = true
+        }
+
+        return anim
     }
 
     override fun onBackPressed() {
