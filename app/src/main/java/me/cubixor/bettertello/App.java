@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.res.Resources;
 
 import me.cubixor.bettertello.bar.BarStateManager;
+import me.cubixor.bettertello.controller.ControllerManager;
+import me.cubixor.bettertello.data.AppSettings;
+import me.cubixor.bettertello.data.AppSettingsRepository;
 import me.cubixor.bettertello.data.FileManager;
 import me.cubixor.bettertello.tello.TelloStateManager;
 import me.cubixor.telloapi.api.Tello;
@@ -12,6 +15,10 @@ public class App extends Application {
 
     private static App mInstance;
     private BarStateManager barStateManager;
+    private TelloStateManager telloStateManager;
+    private ControllerManager controllerManager;
+
+    private AppSettingsRepository appSettingsRepository;
     private Tello tello;
 
     public static App getInstance() {
@@ -26,6 +33,18 @@ public class App extends Application {
         return barStateManager;
     }
 
+    public TelloStateManager getTelloStateManager() {
+        return telloStateManager;
+    }
+
+    public ControllerManager getControllerManager() {
+        return controllerManager;
+    }
+
+    public AppSettingsRepository getAppSettingsRepository() {
+        return appSettingsRepository;
+    }
+
     public Tello getTello() {
         return tello;
     }
@@ -34,14 +53,16 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        tello = Tello.build();
+        appSettingsRepository = new AppSettingsRepository(new AppSettings());
         barStateManager = new BarStateManager();
+        telloStateManager = new TelloStateManager();
+        controllerManager = new ControllerManager();
 
         telloSetup();
     }
 
     private void telloSetup() {
-        tello = Tello.build();
-
         TelloStateManager telloStateManager = new TelloStateManager();
         tello.addConnectionListener(telloStateManager);
         tello.addDroneStatusListener(telloStateManager);

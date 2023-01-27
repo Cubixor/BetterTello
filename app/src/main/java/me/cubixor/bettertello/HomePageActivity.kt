@@ -310,7 +310,7 @@ class HomePageActivity : AppCompatActivity() {
 
     private fun setupHomeActivity(currentBar: BarState) {
         val stateText = binding.stateText2
-        stateText.text = Utils.getStr(currentBar.textPath)
+        stateText.text = getString(currentBar.textPath)
         val stateBar = binding.homeStateBar
         stateBar.foreground = currentBar.barColor.getHomeViewDrawable(this)
         stateBar.glowColor = currentBar.barColor.getGlowColor(this)
@@ -337,14 +337,14 @@ class HomePageActivity : AppCompatActivity() {
         finishAffinity()
     }
 
-    fun onImageClickEvent() {
+    fun onImageClickEvent(v: View) {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_main, R.anim.slide_out_home)
     }
 
-    fun onSettingsClick() {
+    fun onSettingsClick(v: View) {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }

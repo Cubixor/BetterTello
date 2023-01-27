@@ -1,5 +1,6 @@
 package me.cubixor.bettertello;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.media.MediaCodec;
 import android.media.MediaFormat;
@@ -21,19 +22,20 @@ import me.cubixor.telloapi.utils.ByteUtils;
 public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListener*/ {
 
     private final int height = 720;
-    MediaCodec codec;
-    ByteArrayOutputStream frameData = new ByteArrayOutputStream();
-    SurfaceView view;
+    private final ByteArrayOutputStream frameData = new ByteArrayOutputStream();
+    private final SurfaceView view;
     //MediaPlayer mediaPlayer;
+    Activity activity;
     boolean surfaceReady;
     boolean surfaceDestroyed;
+    private MediaCodec codec;
     private byte[] sps/* = new byte[]{0, 0, 0, 1, 103, 77, 64, 40, -107, -96, 60, 5, -71}*/;
     private byte[] pps/* = new byte[]{0, 0, 0, 1, 104, -18, 56, -128}*/;
     private int width;
 
-    public VideoView() {
-        view = MainActivity.getActivity().findViewById(R.id.videoView);
-
+    public VideoView(Activity activity, SurfaceView view) {
+        this.activity = activity;
+        this.view = view;
 
         view.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -96,8 +98,7 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
             e.printStackTrace();
         }
 
-        MainActivity.getActivity().runOnUiThread(() ->
-                view.setForeground(null));
+        activity.runOnUiThread(() -> view.setForeground(null));
     }
 
     private void setViewSize() {
@@ -107,12 +108,12 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
             width = 960;
         }
 
-        MainActivity.getActivity().runOnUiThread(() ->
+        activity.runOnUiThread(() ->
         {
             float videoProportion = (float) width / (float) height;
 
             Point size = new Point();
-            MainActivity.getActivity().getWindowManager().getDefaultDisplay().getSize(size);
+            activity.getWindowManager().getDefaultDisplay().getSize(size);
             int screenWidth = size.x;
             int screenHeight = size.y;
             float screenProportion = (float) screenWidth / (float) screenHeight;

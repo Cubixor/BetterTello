@@ -83,97 +83,70 @@ public class JoystickView extends View
     public static int BUTTON_DIRECTION_BOTH = 0;
     private final Handler mHandlerMultipleLongPress = new Handler();
     // DRAWING
-    private Paint mPaintCircleButton;
-    private Paint mPaintCircleBorder;
-    private Paint mPaintBackground;
-
+    private final Paint mPaintCircleButton;
+    private final Paint mPaintCircleBorder;
+    private final Paint mPaintBackground;
+    private final boolean left;
+    private final Runnable mRunnableMultipleLongPress;
     private Paint mPaintBitmapButton;
     private Bitmap mButtonBitmap;
-
-
     /**
      * Ratio use to define the size of the button
      */
     private float mButtonSizeRatio;
-
-
     /**
      * Ratio use to define the size of the background
      */
     private float mBackgroundSizeRatio;
-
-
     // COORDINATE
     private int mPosX = 0;
     private int mPosY = 0;
     private int mCenterX = 0;
     private int mCenterY = 0;
-
     private int mFixedCenterX = 0;
     private int mFixedCenterY = 0;
-
     private int posX = 0;
     private int posY = 0;
-    private boolean left;
-
     /**
      * Used to adapt behavior whether it is auto-defined center (false) or fixed center (true)
      */
     private boolean mFixedCenter;
-
-
     /**
      * Used to adapt behavior whether the button is automatically re-centered (true)
      * when released or not (false)
      */
     private boolean mAutoReCenterButton;
-
-
     /**
      * Used to adapt behavior whether the button is stick to border (true) or
      * could be anywhere (when false - similar to regular behavior)
      */
     private boolean mButtonStickToBorder;
-
-
     /**
      * Used to enabled/disabled the Joystick. When disabled (enabled to false) the joystick button
      * can't move and onMove is not called.
      */
     private boolean mEnabled;
-
-
     // SIZE
     private int mButtonRadius;
     private int mBorderRadius;
-
-
     /**
      * Alpha of the border (to use when changing color dynamically)
      */
     private int mBorderAlpha;
-
-
     /**
      * Based on mBorderRadius but a bit smaller (minus half the stroke size of the border)
      */
     private float mBackgroundRadius;
-
-
     /**
      * Listener used to dispatch OnMove event
      */
     private OnMoveListener mCallback;
-
     private long mLoopInterval = DEFAULT_LOOP_INTERVAL;
     private Thread mThread = new Thread(this);
-
-
     /**
      * Listener used to dispatch MultipleLongPress event
      */
     private OnMultipleLongPressListener mOnMultipleLongPressListener;
-    private Runnable mRunnableMultipleLongPress;
     private int mMoveTolerance;
     /**
      * The allowed direction of the button is define by the value of this parameter:

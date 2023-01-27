@@ -77,5 +77,10 @@ class BarStateManager(currentState: BarState = BarState.NOT_CONNECTED) {
         currentBar.update { barState }
     }
 
+    //TODO
+    fun clearBars() {
+        activeStates.value = arrayListOf()
+
+    }
 
 }

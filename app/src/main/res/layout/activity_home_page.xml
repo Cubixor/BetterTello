@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="androidx.core.content.ContextCompat" />
+
         <variable
             name="viewModel"
             type="me.cubixor.bettertello.HomePageViewModel" />
@@ -97,7 +99,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:pressedGlowSize="40dp"
-                app:unpressedGlowSize="40dp" />
+                app:unpressedGlowSize="40dp"
+                tools:foreground="@drawable/bar_ok" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -117,7 +120,8 @@
                     android:gravity="center_vertical"
                     android:maxLines="1"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="@string/state_ready_to_fly" />
             </LinearLayout>
 
             <TextView
@@ -125,12 +129,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="60dp"
-                android:text="0%"
+                android:text="@{@string/battery_percentage(viewModel.battery)}"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0%" />
 
             <ProgressBar
                 android:id="@+id/batteryIndicator2"
@@ -139,6 +144,7 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="12dp"
                 android:max="100"
+                android:progress="@{viewModel.battery}"
                 android:progressDrawable="@drawable/battery"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/batteryText2"
@@ -149,10 +155,11 @@
                 android:layout_width="30dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
+                app:imageResource="@{viewModel.wifiStrengthRes}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/batteryIndicator2"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_round_signal_wifi_0_bar_24" />
+                tools:srcCompat="@drawable/ic_round_signal_wifi_0_bar_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -172,7 +179,8 @@
             app:layout_constraintStart_toEndOf="@+id/homeStateLayout"
             app:layout_constraintTop_toTopOf="@+id/homeStateLayout"
             app:pressedGlowSize="20dp"
-            app:unpressedGlowSize="20dp" />
+            app:unpressedGlowSize="20dp"
+            tools:foreground="@drawable/bar_ok_expand" />
 
         <Spinner
             android:id="@+id/spinner"

@@ -82,12 +82,8 @@ public class FragmentSettingsController extends Fragment implements View.OnKeyLi
             }
         }
 
-        if (ControllerUtils.checkGenericMotionEvent(event)) {
-            //TODO Configurable axis
-            return true;
-        }
-
-        return false;
+        //TODO Configurable axis
+        return ControllerUtils.checkGenericMotionEvent(event);
 
     }
 

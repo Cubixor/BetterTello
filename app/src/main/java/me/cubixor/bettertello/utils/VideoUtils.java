@@ -14,34 +14,21 @@ public class VideoUtils {
      * @param progress Bitrate in integer format
      * @return Bitrate in formatted to string
      */
-    public static String getBitrateString(int progress) {
-        BitRate bitrate = BitRate.values()[progress];
-        String text;
-        switch (bitrate) {
+    public static int getBitrateString(int progress) {
+        switch (BitRate.values()[progress]) {
             case MBPS_1:
-                text = Utils.getStr(R.string.bitrate_1);
-                break;
+                return R.string.bitrate_1;
             case MBPS_1_5:
-                text = getStr(R.string.bitrate_1_5);
-                break;
+                return R.string.bitrate_1_5;
             case MBPS_2:
-                text = getStr(R.string.bitrate_2);
-                break;
+                return R.string.bitrate_2;
             case MBPS_3:
-                text = getStr(R.string.bitrate_3);
-                break;
+                return R.string.bitrate_3;
             case MBPS_4:
-                text = getStr(R.string.bitrate_4);
-                break;
+                return R.string.bitrate_4;
             default:
-                text = getStr(R.string.bitrate_auto);
-                break;
+                return R.string.bitrate_auto;
         }
-        return text;
-    }
-
-    public static String getQualityString(boolean quality) {
-        return getStr(quality ? R.string.pic_quality_high : R.string.pic_quality_low);
     }
 
     /**

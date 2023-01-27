@@ -6,14 +6,15 @@ import android.content.Context;
 import android.hardware.input.InputManager;
 import android.view.InputDevice;
 import android.view.InputEvent;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
 import me.cubixor.bettertello.App;
-import me.cubixor.bettertello.MainActivity;
 import me.cubixor.bettertello.R;
 import me.cubixor.bettertello.data.AppSettings;
 import me.cubixor.bettertello.tello.TelloAction;
+import me.cubixor.bettertello.utils.Utils;
 import me.cubixor.telloapi.api.Tello;
 
 public class ControllerManager implements InputManager.InputDeviceListener {
@@ -26,10 +27,40 @@ public class ControllerManager implements InputManager.InputDeviceListener {
     public ControllerManager() {
         tello = App.getInstance().getTello();
         appSettings = AppSettings.getInstance();
-        inputManager = (InputManager) MainActivity.getActivity().getSystemService(Context.INPUT_SERVICE);
+        inputManager = (InputManager) App.getInstance().getSystemService(Context.INPUT_SERVICE);
         inputManager.registerInputDeviceListener(this, null);
     }
 
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (ControllerUtils.checkDpadDevice(event)) {
+            int keyCode = ControllerUtils.dpadAxisToKey(event);
+
+            if (keyCode != -1) {
+                precessKeyInput(keyCode, event);
+
+                return true;
+            }
+        }
+
+        if (ControllerUtils.checkGenericMotionEvent(event)) {
+            for (int i = 0; i < event.getHistorySize(); i++) {
+                processJoystickInput(event, i);
+            }
+
+            processJoystickInput(event, -1);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (ControllerUtils.checkKeyDownEvent(event)) {
+            return precessKeyInput(keyCode, event);
+        }
+        return false;
+    }
 
     public void processJoystickInput(MotionEvent event, int historyPos) {
         InputDevice inputDevice = event.getDevice();
@@ -69,9 +100,8 @@ public class ControllerManager implements InputManager.InputDeviceListener {
         }
 
         //Send a Toast with device connected message
-        Toast.makeText(
-                MainActivity.getActivity().getApplicationContext(),
-                MainActivity.getActivity().getString(R.string.controller_connected, inputDevice.getName()),
+        Toast.makeText(App.getInstance().getApplicationContext(),
+                Utils.getStr(R.string.controller_connected, inputDevice.getName()),
                 Toast.LENGTH_SHORT).show();
 
 

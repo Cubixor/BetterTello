@@ -1,180 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="600dp"
-    android:layout_height="200dp"
-    tools:context=".tello.VideoSettingsWindow">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <eightbitlab.com.blurview.BlurView
-        android:id="@+id/videoSettingsBlur"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="me.cubixor.bettertello.VideoSettingsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="600dp"
+        android:layout_height="200dp"
         android:background="@drawable/video_settings_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></eightbitlab.com.blurview.BlurView>
+        tools:context=".VideoSettingsWindow">
 
-    <TextView
-        android:id="@+id/exposureText"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/exposure"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/bitrateText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!--        <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/videoSettingsBlur"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/video_settings_bg"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />-->
 
-
-    <TextView
-        android:id="@+id/exposureValue"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/exposure_auto"
-        android:textAlignment="textEnd"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/bitrateText"
-        app:layout_constraintEnd_toStartOf="@id/exposureBar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <SeekBar
-        android:id="@+id/exposureBar"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:max="18"
-        android:maxHeight="40dp"
-        android:minHeight="40dp"
-        android:progress="9"
-        android:progressDrawable="@drawable/seek_bar_progress_split"
-        android:splitTrack="false"
-        android:thumb="@drawable/seek_bar_thumb"
-        app:layout_constraintBottom_toTopOf="@id/bitrateText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/exposureText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/exposure"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/bitrateText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/bitrateText"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/bitrate"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/qualityText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exposureText" />
+        <TextView
+            android:id="@+id/exposureValue"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@{viewModel.exposureString}"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/bitrateText"
+            app:layout_constraintEnd_toStartOf="@id/exposureBar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="AUTO" />
+
+        <SeekBar
+            android:id="@+id/exposureBar"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:max="18"
+            android:maxHeight="40dp"
+            android:minHeight="40dp"
+            android:progress="@{viewModel.exposure}"
+            android:progressDrawable="@drawable/seek_bar_progress_split"
+            android:splitTrack="false"
+            android:thumb="@drawable/seek_bar_thumb"
+            app:layout_constraintBottom_toTopOf="@id/bitrateText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/bitrateValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/bitrate_auto"
-        android:textAlignment="textEnd"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/qualityText"
-        app:layout_constraintEnd_toStartOf="@id/bitrateBar"
-        app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintTop_toBottomOf="@id/exposureText" />
-
-    <SeekBar
-        android:id="@+id/bitrateBar"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:max="5"
-        android:maxHeight="15dp"
-        android:minHeight="15dp"
-        android:progress="0"
-        android:progressDrawable="@drawable/seek_bar_progress"
-        android:splitTrack="false"
-        android:thumb="@drawable/seek_bar_thumb"
-        app:layout_constraintBottom_toTopOf="@id/qualityText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exposureText" />
-
-    <TextView
-        android:id="@+id/qualityText"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/pic_quality"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/iframeInterval"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bitrateText" />
+        <TextView
+            android:id="@+id/bitrateText"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/bitrate"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/qualityText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exposureText" />
 
 
-    <TextView
-        android:id="@+id/qualityValue"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/pic_quality_low"
-        android:textAlignment="textEnd"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/iframeInterval"
-        app:layout_constraintEnd_toStartOf="@id/qualitySwitch"
-        app:layout_constraintTop_toBottomOf="@id/bitrateText" />
+        <TextView
+            android:id="@+id/bitrateValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@{context.getString(viewModel.bitrateRes)}"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/qualityText"
+            app:layout_constraintEnd_toStartOf="@id/bitrateBar"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintTop_toBottomOf="@id/exposureText"
+            tools:text="@string/bitrate_auto" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/qualitySwitch"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:minHeight="48dp"
-        android:thumb="@drawable/white_thumb"
-        app:layout_constraintBottom_toTopOf="@id/iframeTextBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bitrateText"
-        app:track="@drawable/white_blue_track" />
+        <SeekBar
+            android:id="@+id/bitrateBar"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:max="5"
+            android:maxHeight="15dp"
+            android:minHeight="15dp"
+            android:progress="@{viewModel.bitrate}"
+            android:progressDrawable="@drawable/seek_bar_progress"
+            android:splitTrack="false"
+            android:thumb="@drawable/seek_bar_thumb"
+            app:layout_constraintBottom_toTopOf="@id/qualityText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exposureText" />
 
-    <TextView
-        android:id="@+id/iframeInterval"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/iframe_interval"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qualityText" />
-
-    <EditText
-        android:id="@+id/iframeTextBox"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/text_background"
-        android:importantForAutofill="no"
-        android:inputType="numberDecimal"
-        android:text="2"
-        android:textAlignment="center"
-        android:textColor="#767676"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qualityText" />
+        <TextView
+            android:id="@+id/qualityText"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/pic_quality"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/iframeInterval"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bitrateText" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/qualityValue"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@{context.getString(viewModel.qualityRes)}"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/iframeInterval"
+            app:layout_constraintEnd_toStartOf="@id/qualitySwitch"
+            app:layout_constraintTop_toBottomOf="@id/bitrateText"
+            tools:text="@string/pic_quality_low" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/qualitySwitch"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:checked="@{viewModel.quality}"
+            android:minHeight="48dp"
+            android:thumb="@drawable/white_thumb"
+            app:layout_constraintBottom_toTopOf="@id/iframeTextBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bitrateText"
+            app:track="@drawable/white_blue_track" />
+
+        <TextView
+            android:id="@+id/iframeInterval"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/iframe_interval"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/qualityText" />
+
+        <EditText
+            android:id="@+id/iframeTextBox"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/text_background"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:text="@{viewModel.iFrameInterval.toString()}"
+            android:textAlignment="center"
+            android:textColor="#767676"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/qualityText"
+            tools:text="2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

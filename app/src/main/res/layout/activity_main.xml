@@ -1,407 +1,430 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey"
-    android:orientation="horizontal"
-    android:weightSum="1"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <SurfaceView
-        android:id="@+id/videoView"
+    <data>
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="viewModel"
+            type="me.cubixor.bettertello.MainActivityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:foreground="@drawable/sample"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/grey"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        tools:context=".MainActivity">
 
-    <me.cubixor.bettertello.api.JoystickView
-        android:id="@+id/joystickLeft"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:layout_weight="1"
-        app:JV_autoReCenterButton="true"
-        app:JV_backgroundColor="#00FFFFFF"
-        app:JV_backgroundSizeRatio="60%"
-        app:JV_borderAlpha="100"
-        app:JV_borderColor="@color/white"
-        app:JV_borderWidth="3dp"
-        app:JV_buttonColor="#805A5A5A"
-        app:JV_buttonSizeRatio="10%"
-        app:JV_fixedCenter="false"
-        app:JV_left="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/joystickRight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <me.cubixor.bettertello.api.JoystickView
-        android:id="@+id/joystickRight"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:layout_weight="1"
-        app:JV_autoReCenterButton="true"
-        app:JV_backgroundColor="#00FFFFFF"
-        app:JV_backgroundSizeRatio="60%"
-        app:JV_borderAlpha="100"
-        app:JV_borderColor="@color/white"
-        app:JV_borderWidth="3dp"
-        app:JV_buttonColor="#805A5A5A"
-        app:JV_buttonSizeRatio="10%"
-        app:JV_fixedCenter="false"
-        app:JV_left="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/joystickLeft"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <eightbitlab.com.blurview.BlurView
-        android:id="@+id/blurView"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/middleBar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-
-            <ImageView
-                android:id="@+id/topBackground"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/bar_neutral" />
-
-            <TextView
-                android:id="@+id/stateText"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="24dp"
-                android:gravity="center_vertical"
-                android:text="@string/state_not_connected"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:autoSizeTextType="uniform"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/middleBar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/timeLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/heightLayout"
-                app:layout_constraintStart_toEndOf="@id/middleBar"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/timeImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/timeText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_schedule_24" />
-
-                <TextView
-                    android:id="@+id/timeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="00:00"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/timeImage"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/heightLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/speedLayout"
-                app:layout_constraintStart_toEndOf="@id/timeLayout"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/heightImage"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/heightText"
-                    app:layout_constraintStart_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_height_24" />
-
-                <TextView
-                    android:id="@+id/heightText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="0 m"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/heightImage"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/speedLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/wifiLayout"
-                app:layout_constraintStart_toEndOf="@id/heightLayout"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/speedImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/speedText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_speed_24" />
-
-                <TextView
-                    android:id="@+id/speedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="0 m/s"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/speedImage"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/wifiLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/batteryLayout"
-                app:layout_constraintStart_toEndOf="@id/speedLayout"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/wifiIndicator"
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_round_signal_wifi_0_bar_24" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/batteryLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/wifiLayout"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ProgressBar
-                    android:id="@+id/batteryIndicator"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="50dp"
-                    android:layout_height="25dp"
-                    android:max="100"
-                    android:progressDrawable="@drawable/battery"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/batteryText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/batteryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="0%"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/batteryIndicator"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </eightbitlab.com.blurview.BlurView>
-
-
-    <Button
-        android:id="@+id/takePicRecordButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/photo_btn"
-        android:onClick="onTakePhotoVideoClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/changePhotoVideoButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_round_flip_camera_android_48"
-        android:onClick="onChangePhotoVideoButtonClick"
-        app:layout_constraintEnd_toStartOf="@+id/takePicRecordButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/flightModesButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_round_smart_toy_48"
-        android:onClick="onButtonAI"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/rthButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_round_home_48"
-        app:layout_constraintStart_toEndOf="@+id/flightModesButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:id="@+id/takeoffLandButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_round_flight_takeoff_48"
-        android:onClick="onTakeoffLandButtonClick"
-        app:layout_constraintStart_toEndOf="@+id/rthButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/slowFastButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/slow_fast_btn"
-        android:onClick="onChangeSpeedButtonClicked"
-        android:text="@string/slow_letter"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/blurView" />
-
-    <Button
-        android:id="@+id/expandButton"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:background="@drawable/ic_round_arrow_back_ios_new__transparent_60"
-        android:onClick="onHomePageClick"
-        app:layout_constraintBottom_toTopOf="@+id/blurView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <include layout="@layout/video_info_layout" />
-
-
-    <FrameLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <View
-            android:id="@+id/flipsView"
+        <SurfaceView
+            android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/flips_border"
-            android:clickable="true"
-            android:visibility="invisible" />
+            android:foreground="@drawable/sample"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/flipsTouchIndicatorView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="@drawable/flips_touch_indicator"
-            android:visibility="invisible" />
-    </FrameLayout>
+        <me.cubixor.bettertello.api.JoystickView
+            android:id="@+id/joystickLeft"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            app:JV_autoReCenterButton="true"
+            app:JV_backgroundColor="#00FFFFFF"
+            app:JV_backgroundSizeRatio="60%"
+            app:JV_borderAlpha="100"
+            app:JV_borderColor="@color/white"
+            app:JV_borderWidth="3dp"
+            app:JV_buttonColor="#805A5A5A"
+            app:JV_buttonSizeRatio="10%"
+            app:JV_fixedCenter="false"
+            app:JV_left="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/joystickRight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!--
-            <me.cubixor.bettertello.DecoderView
-                android:id="@+id/decoderView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-    -->
+
+        <me.cubixor.bettertello.api.JoystickView
+            android:id="@+id/joystickRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            app:JV_autoReCenterButton="true"
+            app:JV_backgroundColor="#00FFFFFF"
+            app:JV_backgroundSizeRatio="60%"
+            app:JV_borderAlpha="100"
+            app:JV_borderColor="@color/white"
+            app:JV_borderWidth="3dp"
+            app:JV_buttonColor="#805A5A5A"
+            app:JV_buttonSizeRatio="10%"
+            app:JV_fixedCenter="false"
+            app:JV_left="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/joystickLeft"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/blurView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/middleBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/topBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/bar_neutral" />
+
+                <TextView
+                    android:id="@+id/stateText"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/state_not_connected"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/middleBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/timeLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/heightLayout"
+                    app:layout_constraintStart_toEndOf="@id/middleBar"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/timeImage"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/timeText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_schedule_24" />
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@{viewModel.timeFlying}"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/timeImage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="00:00" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/heightLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/speedLayout"
+                    app:layout_constraintStart_toEndOf="@id/timeLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/heightImage"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/heightText"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_height_24" />
+
+                    <TextView
+                        android:id="@+id/heightText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@{@string/height(viewModel.height)}"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/heightImage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="0 m" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/speedLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/wifiLayout"
+                    app:layout_constraintStart_toEndOf="@id/heightLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/speedImage"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/speedText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_speed_24" />
+
+                    <TextView
+                        android:id="@+id/speedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@{@string/speed(viewModel.speed)}"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/speedImage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="0 m/s" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/wifiLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/batteryLayout"
+                    app:layout_constraintStart_toEndOf="@id/speedLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/wifiIndicator"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        app:imageResource="@{viewModel.wifiStrengthRes}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@drawable/ic_round_signal_wifi_0_bar_24" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/batteryLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/wifiLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ProgressBar
+                        android:id="@+id/batteryIndicator"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:max="100"
+                        android:progress="@{viewModel.battery}"
+                        android:progressDrawable="@drawable/battery"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/batteryText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/batteryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="@{@string/battery_percentage(viewModel.battery)}"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/batteryIndicator"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="0%" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </eightbitlab.com.blurview.BlurView>
+
+
+        <Button
+            android:id="@+id/takePicRecordButton"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@{ContextCompat.getDrawable(context, viewModel.photoModeRes)}"
+            android:onClick="@{() -> viewModel.onTakePhotoVideoClick()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/photo_btn" />
+
+        <Button
+            android:id="@+id/changePhotoVideoButton"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_round_flip_camera_android_48"
+            android:onClick="@{()->viewModel.onChangePhotoVideoButtonClick()}"
+            app:layout_constraintEnd_toStartOf="@+id/takePicRecordButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/flightModesButton"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@{ContextCompat.getDrawable(context, viewModel.smartModeRes)}"
+            android:onClick="onButtonAI"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/ic_round_smart_toy_48" />
+
+        <Button
+            android:id="@+id/rthButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_round_home_48"
+            app:layout_constraintStart_toEndOf="@+id/flightModesButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/takeoffLandButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@{ContextCompat.getDrawable(context, viewModel.flyingRes)}"
+            android:onClick="@{()->viewModel.onTakeoffLandButtonClick()}"
+            app:layout_constraintStart_toEndOf="@+id/rthButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/ic_round_flight_takeoff_48" />
+
+        <Button
+            android:id="@+id/slowFastButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/slow_fast_btn"
+            android:onClick="@{()-> viewModel.onChangeSpeedButtonClicked()}"
+            android:text="@{context.getString(viewModel.iFastModeRes)}"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/blurView"
+            tools:text="@string/fast_letter" />
+
+        <Button
+            android:id="@+id/expandButton"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_round_arrow_back_ios_new__transparent_60"
+            android:onClick="onHomePageClick"
+            app:layout_constraintBottom_toTopOf="@+id/blurView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <include
+            layout="@layout/video_info_layout"
+            app:viewModel="@{viewModel}" />
+
+
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/flipsView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/flips_border"
+                android:clickable="true"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/flipsTouchIndicatorView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/flips_touch_indicator"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <!--
+                <me.cubixor.bettertello.DecoderView
+                    android:id="@+id/decoderView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+        -->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

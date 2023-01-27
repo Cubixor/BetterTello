@@ -11,7 +11,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
-import me.cubixor.bettertello.data.AppSettings;
 import me.cubixor.bettertello.databinding.ActivitySettingsBinding;
 import me.cubixor.bettertello.utils.Utils;
 
@@ -19,8 +18,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private View lastClickedView;
     private Fragment currentSection;
-
-    private AppSettings appSettings;
 
     private ActivitySettingsBinding binding;
 
@@ -30,8 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Utils.fullScreen(this);
-
-        appSettings = AppSettings.getInstance();
 
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);

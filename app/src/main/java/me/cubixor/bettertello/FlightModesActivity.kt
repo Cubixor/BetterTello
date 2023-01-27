@@ -10,7 +10,7 @@ import me.cubixor.telloapi.api.Tello
 
 class FlightModesActivity : AppCompatActivity() {
 
-    private var tello: Tello? = null
+    private lateinit var tello: Tello
     private lateinit var binding: ActivityFlightModesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

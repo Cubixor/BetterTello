@@ -2,17 +2,19 @@ package me.cubixor.bettertello.data;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import me.cubixor.bettertello.MainActivity;
+import me.cubixor.bettertello.App;
 import me.cubixor.telloapi.api.listeners.FileReceiver;
+
 
 public class FileManager implements FileReceiver {
 
@@ -47,7 +49,7 @@ public class FileManager implements FileReceiver {
             e.printStackTrace();
         }
 
-        MediaScannerConnection.scanFile(MainActivity.getActivity(), new String[]{file.getAbsolutePath()}, null, (path, uri) -> {
+        MediaScannerConnection.scanFile(App.getInstance().getApplicationContext(), new String[]{file.getAbsolutePath()}, null, (path, uri) -> {
         });
 
 

@@ -1,12 +1,14 @@
 package me.cubixor.bettertello
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.cubixor.bettertello.bar.BarState
 import me.cubixor.bettertello.bar.BarStateChange
 import me.cubixor.bettertello.bar.BarStateManager
 
-class HomePageViewModel : ViewModel() {
+class HomePageViewModel : BarViewModel() {
 
     private val barStateManager: BarStateManager = App.getInstance().barStateManager
 
@@ -24,8 +26,6 @@ class HomePageViewModel : ViewModel() {
 
     private val _removedStates = MutableLiveData<BarStateChange>()
     val removedStates: LiveData<BarStateChange> = _removedStates
-
-    val currentBar: LiveData<BarState> = barStateManager.observeCurrentBar().asLiveData()
 
     fun expandStates() {
         _statesExpanded.value = true
