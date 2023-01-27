@@ -20,9 +20,6 @@
             android:name=".FlightModesActivity"
             android:exported="false"
             android:screenOrientation="landscape" />
-        <!--
-                    android:theme="@style/Theme.AppCompat.Translucent" />
-        -->
         <activity
             android:name=".SettingsActivity"
             android:exported="false"

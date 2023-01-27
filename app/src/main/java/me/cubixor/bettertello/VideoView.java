@@ -19,6 +19,7 @@ import me.cubixor.telloapi.api.listeners.VideoListener;
 import me.cubixor.telloapi.utils.ByteUtils;
 
 
+//TODO Cleanup
 public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListener*/ {
 
     private final int height = 720;

@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.cubixor.bettertello.data.AppSettings;
+import me.cubixor.bettertello.App;
 
 public class ControllerUtils {
 
@@ -52,7 +52,7 @@ public class ControllerUtils {
     }
 
     public static Controller getControllerByID(String descriptor) {
-        for (Controller controller : AppSettings.getInstance().getControllers()) {
+        for (Controller controller : App.getInstance().getAppSettingsRepository().getControllers()) {
             if (controller.getDescriptor().equals(descriptor)) {
                 return controller;
             }
@@ -78,7 +78,7 @@ public class ControllerUtils {
     }
 
     public static boolean checkDpadDevice(InputEvent event) {
-        return (event.getSource() & InputDevice.SOURCE_DPAD) != InputDevice.SOURCE_DPAD;
+        return (event.getSource() & InputDevice.SOURCE_DPAD) == InputDevice.SOURCE_DPAD;
     }
 
     public static int dpadAxisToKey(MotionEvent motionEvent) {

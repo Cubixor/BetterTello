@@ -1,47 +1,40 @@
-package me.cubixor.bettertello;
+package me.cubixor.bettertello
 
-import android.os.Bundle;
-import android.view.View;
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import me.cubixor.bettertello.databinding.ActivitySettingsBinding
+import me.cubixor.bettertello.utils.Utils
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
+class SettingsActivity : AppCompatActivity() {
 
-import com.google.android.material.navigation.NavigationView;
+    private lateinit var binding: ActivitySettingsBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        Utils.fullScreen(this)
 
-import me.cubixor.bettertello.databinding.ActivitySettingsBinding;
-import me.cubixor.bettertello.utils.Utils;
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+        val navController = navHostFragment!!.navController
+        val navView = binding.navigationView
+        setupWithNavController(navView, navController)
+    }
 
-public class SettingsActivity extends AppCompatActivity {
+    fun onBackClick(v: View) {
+        finish()
+    }
 
+
+/*
     private View lastClickedView;
     private Fragment currentSection;
 
-    private ActivitySettingsBinding binding;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        Utils.fullScreen(this);
-
-
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
-        NavigationView navView = binding.navigationView;
-        NavigationUI.setupWithNavController(navView, navController);
-    }
-
-
-    public void onBackClick(View view) {
-        //finish();
-    }
 
     public void onSectionClick(View view) {
-/*
+
         if (lastClickedView != null) {
             lastClickedView.setBackgroundResource(R.drawable.button_background);
         }
@@ -49,10 +42,10 @@ public class SettingsActivity extends AppCompatActivity {
         view.setBackgroundResource(R.drawable.button_clicked_background);
 
         openSection(view.getId());
-*/
+
     }
 
-/*
+
     public void openSection(int viewID) {
         Fragment newFragment = chooseSection(viewID);
         if (newFragment != null) {
@@ -79,11 +72,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return null;
     }
-*/
+
 
 
     public Fragment getCurrentSection() {
         return currentSection;
     }
-
+*/
 }

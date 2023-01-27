@@ -349,7 +349,7 @@ class HomePageActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun onStateClick() {
+    fun onStateClick(v: View) {
         println("CLICK")
     }
 }

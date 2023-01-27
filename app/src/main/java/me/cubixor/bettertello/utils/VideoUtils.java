@@ -1,7 +1,5 @@
 package me.cubixor.bettertello.utils;
 
-import static me.cubixor.bettertello.utils.Utils.getStr;
-
 import me.cubixor.bettertello.R;
 import me.cubixor.telloapi.api.video.BitRate;
 import me.cubixor.telloapi.api.video.VideoInfo;
@@ -39,6 +37,6 @@ public class VideoUtils {
      */
     public static String getExposureString(int progress) {
         float exposure = VideoInfo.getExposureValues()[progress];
-        return exposure == 0.0f ? getStr(R.string.exposure_auto) : Float.toString(exposure);
+        return exposure == 0.0f ? Utils.getStr(R.string.exposure_auto) : Float.toString(exposure);
     }
 }

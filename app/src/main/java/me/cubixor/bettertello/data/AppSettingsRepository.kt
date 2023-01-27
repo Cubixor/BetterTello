@@ -1,8 +1,11 @@
 package me.cubixor.bettertello.data
 
+import android.view.InputDevice
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.cubixor.bettertello.App
+import me.cubixor.bettertello.controller.Controller
+import me.cubixor.bettertello.tello.TelloAction
 import me.cubixor.telloapi.api.video.BitRate
 import me.cubixor.telloapi.api.video.VideoMode
 
@@ -27,6 +30,8 @@ class AppSettingsRepository(private val appSettings: AppSettings) {
 
     private val _isPhotoMode: MutableLiveData<Boolean> = MutableLiveData(appSettings.isPhotoMode)
     val isPhotoMode: LiveData<Boolean> = _isPhotoMode
+
+    val controllers: MutableList<Controller> = appSettings.loadControllers() as MutableList<Controller>
 
     fun startVideo() {
         tello.videoInfo.startVideoStream((iFrameInterval.value!! * 1000f).toInt())
@@ -90,4 +95,24 @@ class AppSettingsRepository(private val appSettings: AppSettings) {
         tello.videoInfo.videoMode = if (photoMode) VideoMode.PHOTO else VideoMode.VIDEO
     }
 
+    fun addController(inputDevice: InputDevice) {
+        val controller = Controller(inputDevice.descriptor, inputDevice.name, controllers.size + 1)
+        controllers.add(controller)
+        appSettings.saveControllers(controllers)
+    }
+
+    fun addControllerMapping(controller: Controller, telloAction: TelloAction, keyCode: Int) {
+        controller.mappings[keyCode] = telloAction
+        appSettings.saveControllers(controllers)
+    }
+
+    fun removeControllerMapping(controller: Controller, telloAction: TelloAction) {
+        controller.mappings.remove(controller.getKeyByAction(telloAction))
+        appSettings.saveControllers(controllers)
+    }
+
+    fun resetMappings(controller: Controller) {
+        controller.mappings.clear()
+        appSettings.saveControllers(controllers)
+    }
 }

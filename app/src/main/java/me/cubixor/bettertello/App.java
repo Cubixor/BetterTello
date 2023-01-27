@@ -11,6 +11,7 @@ import me.cubixor.bettertello.data.FileManager;
 import me.cubixor.bettertello.tello.TelloStateManager;
 import me.cubixor.telloapi.api.Tello;
 
+//TODO Change class instances to dependency injection
 public class App extends Application {
 
     private static App mInstance;

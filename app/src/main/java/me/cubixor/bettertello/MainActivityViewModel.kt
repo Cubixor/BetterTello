@@ -3,7 +3,6 @@ package me.cubixor.bettertello
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import me.cubixor.bettertello.tello.TelloAction

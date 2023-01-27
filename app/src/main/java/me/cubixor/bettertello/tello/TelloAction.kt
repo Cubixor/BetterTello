@@ -1,7 +1,7 @@
 package me.cubixor.bettertello.tello
 
 import me.cubixor.bettertello.App
-import me.cubixor.bettertello.utils.Utils
+import me.cubixor.bettertello.BuildConfig
 import me.cubixor.telloapi.api.FlipDirection
 import me.cubixor.telloapi.api.Tello
 import me.cubixor.telloapi.api.video.SmartVideoMode
@@ -152,7 +152,12 @@ enum class TelloAction {
     };
 
     val settingsDescription: String
-        get() = Utils.getStr("settings_controller_" + name.lowercase())
+        get() {
+            val resources = App.getInstance().res
+            val resName = "settings_controller_" + name.lowercase()
+            val id = resources.getIdentifier(resName, "string", BuildConfig.APPLICATION_ID)
+            return resources.getString(id)
+        }
 
     fun handleOriginalFlightMode(tello: Tello, smartVideoMode: SmartVideoMode) {
         val stop = tello.videoInfo.isSmartVideoRunning && tello.videoInfo.smartVideoMode == smartVideoMode

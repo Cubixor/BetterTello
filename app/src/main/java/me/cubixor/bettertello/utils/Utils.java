@@ -13,7 +13,6 @@ import androidx.annotation.StringRes;
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 import me.cubixor.bettertello.App;
-import me.cubixor.bettertello.BuildConfig;
 
 public class Utils {
 
@@ -24,15 +23,6 @@ public class Utils {
 
     public static String getStr(@StringRes int id) {
         return App.getInstance().getRes().getString(id);
-    }
-
-    public static String getStr(@StringRes int id, Object... formatArgs) {
-        return App.getInstance().getRes().getString(id, formatArgs);
-    }
-
-    public static String getStr(String aString) {
-        int resId = App.getInstance().getRes().getIdentifier(aString, "string", BuildConfig.APPLICATION_ID);
-        return getStr(resId);
     }
 
     public static void fullScreen(Activity activity) {

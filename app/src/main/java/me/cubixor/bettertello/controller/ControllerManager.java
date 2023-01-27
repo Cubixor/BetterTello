@@ -10,25 +10,39 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import java.util.List;
+
 import me.cubixor.bettertello.App;
 import me.cubixor.bettertello.R;
-import me.cubixor.bettertello.data.AppSettings;
+import me.cubixor.bettertello.data.AppSettingsRepository;
 import me.cubixor.bettertello.tello.TelloAction;
-import me.cubixor.bettertello.utils.Utils;
 import me.cubixor.telloapi.api.Tello;
 
 public class ControllerManager implements InputManager.InputDeviceListener {
 
     private final Tello tello;
-    private final AppSettings appSettings;
+    private final AppSettingsRepository appSettings;
     private final InputManager inputManager;
 
 
     public ControllerManager() {
         tello = App.getInstance().getTello();
-        appSettings = AppSettings.getInstance();
+        appSettings = App.getInstance().getAppSettingsRepository();
         inputManager = (InputManager) App.getInstance().getSystemService(Context.INPUT_SERVICE);
         inputManager.registerInputDeviceListener(this, null);
+
+        loadControllers();
+    }
+
+    public void loadControllers() {
+        List<InputDevice> devices = ControllerUtils.getConnectedInputDevices();
+
+        for (InputDevice inputDevice : devices) {
+            Controller controller = ControllerUtils.getControllerByID(inputDevice.getDescriptor());
+            if (controller == null) {
+                appSettings.addController(inputDevice);
+            }
+        }
     }
 
     public boolean onGenericMotionEvent(MotionEvent event) {
@@ -100,8 +114,9 @@ public class ControllerManager implements InputManager.InputDeviceListener {
         }
 
         //Send a Toast with device connected message
-        Toast.makeText(App.getInstance().getApplicationContext(),
-                Utils.getStr(R.string.controller_connected, inputDevice.getName()),
+        Context context = App.getInstance().getApplicationContext();
+        Toast.makeText(context,
+                context.getString(R.string.controller_connected, inputDevice.getName()),
                 Toast.LENGTH_SHORT).show();
 
 

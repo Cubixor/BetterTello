@@ -127,13 +127,11 @@ class MainActivity : AppCompatActivity() {
         touchIndicatorView.y = y.toFloat()
     }
 
-    override fun onGenericMotionEvent(event: MotionEvent): Boolean {
-        return controllerManager.onGenericMotionEvent(event) || super.onGenericMotionEvent(event)
-    }
+    override fun onGenericMotionEvent(event: MotionEvent): Boolean =
+        controllerManager.onGenericMotionEvent(event) || super.onGenericMotionEvent(event)
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return controllerManager.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event)
-    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean =
+        controllerManager.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event)
 
     fun onVideoSettingsButtonClick(view: View) {
         val icon = view.findViewById<View>(R.id.videoSettingsImage)
