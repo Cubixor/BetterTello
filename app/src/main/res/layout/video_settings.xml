@@ -45,7 +45,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="@{viewModel.exposureString}"
+            android:text="@{viewModel.exposureStr}"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textSize="18sp"

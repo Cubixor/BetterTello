@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="me.cubixor.bettertello.MainActivityViewModel" />
+
+        <variable
+            name="context"
+            type="android.content.Context" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +59,7 @@
             android:id="@+id/bitrateInfoText"
             android:layout_width="50dp"
             android:layout_height="15dp"
-            android:text="@{context.getString(viewModel.bitRate)}"
+            android:text="@{context.getString(viewModel.bitrateRes)}"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -69,7 +73,7 @@
             android:id="@+id/exposureInfoText"
             android:layout_width="50dp"
             android:layout_height="15dp"
-            android:text="@{viewModel.exposure}"
+            android:text="@{viewModel.exposureStr}"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold"

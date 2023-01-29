@@ -1,58 +1,48 @@
-package me.cubixor.bettertello.api;
+package me.cubixor.bettertello.api
 
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.MotionEvent
+import me.cubixor.telloapi.api.FlipDirection
+import kotlin.math.atan2
 
-import me.cubixor.telloapi.api.FlipDirection;
-
-public abstract class OnSwipeListener extends GestureDetector.SimpleOnGestureListener {
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        float x1 = e1.getX();
-        float y1 = e1.getY();
-
-        float x2 = e2.getX();
-        float y2 = e2.getY();
-
-        FlipDirection direction = getDirection(x1, y1, x2, y2);
-        return onSwipe(direction);
+abstract class OnSwipeListener : SimpleOnGestureListener() {
+    override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        val x1 = e1.x
+        val y1 = e1.y
+        val x2 = e2.x
+        val y2 = e2.y
+        val direction = getDirection(x1, y1, x2, y2)
+        return onSwipe(direction)
     }
 
-    public abstract boolean onSwipe(FlipDirection direction);
-
-    private FlipDirection getDirection(float x1, float y1, float x2, float y2) {
-        double angle = getAngle(x1, y1, x2, y2);
-        return fromAngle(angle);
+    abstract fun onSwipe(direction: FlipDirection): Boolean
+    private fun getDirection(x1: Float, y1: Float, x2: Float, y2: Float): FlipDirection {
+        val angle = getAngle(x1, y1, x2, y2)
+        return fromAngle(angle)
     }
 
-    private double getAngle(float x1, float y1, float x2, float y2) {
-        double rad = Math.atan2(y1 - y2, x2 - x1) + Math.PI;
-        return (rad * 180 / Math.PI + 180) % 360;
+    private fun getAngle(x1: Float, y1: Float, x2: Float, y2: Float): Double {
+        val rad = atan2((y1 - y2).toDouble(), (x2 - x1).toDouble()) + Math.PI
+        return (rad * 180 / Math.PI + 180) % 360
     }
 
-    private FlipDirection fromAngle(double angle) {
-        if (inRange(angle, 0, 22.5f) || inRange(angle, 337.5f, 360)) {
-            return FlipDirection.RIGHT;
-        } else if (inRange(angle, 22.5f, 67.5f)) {
-            return FlipDirection.FORWARD_RIGHT;
-        } else if (inRange(angle, 67.5f, 112.5f)) {
-            return FlipDirection.FORWARD;
-        } else if (inRange(angle, 112.5f, 157.5f)) {
-            return FlipDirection.FORWARD_LEFT;
-        } else if (inRange(angle, 157.5f, 202.5f)) {
-            return FlipDirection.LEFT;
-        } else if (inRange(angle, 202.5f, 247.5f)) {
-            return FlipDirection.BACKWARD_LEFT;
-        } else if (inRange(angle, 247.5f, 292.5f)) {
-            return FlipDirection.BACKWARD;
-        } else if (inRange(angle, 292.5f, 337.5f)) {
-            return FlipDirection.BACKWARD_RIGHT;
-        }
-        return null;
+    private fun fromAngle(angle: Double): FlipDirection {
+        /*if (inRange(angle, 0f, 22.5f) || inRange(angle, 337.5f, 360f)) {
+            return FlipDirection.RIGHT
+        } else*/
+        return if (inRange(angle, 22.5f, 67.5f)) FlipDirection.FORWARD_RIGHT
+        else if (inRange(angle, 67.5f, 112.5f)) FlipDirection.FORWARD
+        else if (inRange(angle, 112.5f, 157.5f)) FlipDirection.FORWARD_LEFT
+        else if (inRange(angle, 157.5f, 202.5f)) FlipDirection.LEFT
+        else if (inRange(angle, 202.5f, 247.5f)) FlipDirection.BACKWARD_LEFT
+        else if (inRange(angle, 247.5f, 292.5f)) FlipDirection.BACKWARD
+        else if (inRange(angle, 292.5f, 337.5f)) FlipDirection.BACKWARD_RIGHT
+        else FlipDirection.RIGHT
+
+        //return null
     }
 
-    private boolean inRange(double angle, float init, float end) {
-        return (angle >= init) && (angle < end);
+    private fun inRange(angle: Double, init: Float, end: Float): Boolean {
+        return angle >= init && angle < end
     }
 }

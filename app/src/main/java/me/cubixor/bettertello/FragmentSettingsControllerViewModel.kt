@@ -1,11 +1,13 @@
 package me.cubixor.bettertello
 
 import android.view.InputEvent
+import android.view.KeyEvent
+import android.view.MotionEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import me.cubixor.bettertello.controller.Controller
-import me.cubixor.bettertello.controller.ControllerUtils
+import me.cubixor.bettertello.controller.ControllerManager
 import me.cubixor.bettertello.data.AppSettingsRepository
 import me.cubixor.bettertello.tello.TelloAction
 import me.cubixor.bettertello.utils.KeyCodes.keyCodes
@@ -14,12 +16,13 @@ import java.util.*
 class FragmentSettingsControllerViewModel : ViewModel() {
 
     private val appSettings: AppSettingsRepository = App.getInstance().appSettingsRepository
+    private val controllerManager: ControllerManager = App.getInstance().controllerManager
 
     private val _buttonText = MutableLiveData(EnumMap<TelloAction, String>(TelloAction::class.java))
     val buttonText: LiveData<EnumMap<TelloAction, String>> = _buttonText
     private val _currentButton = MutableLiveData<TelloAction?>()
     val currentButton: LiveData<TelloAction?> = _currentButton
-    private val _selectedController = MutableLiveData(ControllerUtils.selectController())
+    private val _selectedController = MutableLiveData(controllerManager.getFirstController())
     val selectedController: LiveData<Controller> = _selectedController
 
 
@@ -87,14 +90,22 @@ class FragmentSettingsControllerViewModel : ViewModel() {
             return controllers
         }
 
-    fun processInputEvent(keyCode: Int, event: InputEvent): Boolean {
+    fun onGenericMotion(event: MotionEvent): Boolean {
+        return controllerManager.onGenericMotionEvent(event, ::processInputEvent)
+    }
+
+    fun onKey(keyCode: Int, event: KeyEvent): Boolean {
+        return controllerManager.onKeyDown(keyCode, event, ::processInputEvent)
+    }
+
+    private fun processInputEvent(keyCode: Int, event: InputEvent): Boolean {
         val telloAction = currentButton.value ?: return true
 
         //Check if any button is selected
-        val controller = ControllerUtils.getControllerByID(event.device.descriptor)
+        val controller = controllerManager.getControllerByID(event.device.descriptor)
 
         //Check if selected controller has been used
-        if (!controller.equals(selectedController.value)) return true
+        if (controller == null || controller != selectedController.value) return true
 
 
         //Check if the key was already assigned to something and delete previous mapping

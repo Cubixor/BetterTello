@@ -6,14 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import me.cubixor.bettertello.tello.TelloAction
-import me.cubixor.bettertello.utils.VideoUtils
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
-class MainActivityViewModel : BarViewModel() {
+class MainActivityViewModel(videoViewModel: VideoViewModel = VideoViewModelImpl(App.getInstance().appSettingsRepository)) : BarViewModel(),
+    VideoViewModel by videoViewModel {
 
     private val stateManager = App.getInstance().telloStateManager
     private val appSettingsRepository = App.getInstance().appSettingsRepository
@@ -43,7 +43,7 @@ class MainActivityViewModel : BarViewModel() {
             if (fastMode) R.string.fast_letter
             else R.string.slow_letter
         }
-
+/*
     @StringRes
     val bitRate: LiveData<Int> = appSettingsRepository.bitrate.map { bitRate ->
         VideoUtils.getBitrateString(bitRate)
@@ -51,7 +51,7 @@ class MainActivityViewModel : BarViewModel() {
 
     val exposure: LiveData<String> = appSettingsRepository.exposure.map { exposure ->
         VideoUtils.getExposureString(exposure)
-    }
+    }*/
 
     val smartModeRunning: LiveData<Boolean> = stateManager.observeSmartModeRunning().asLiveData()
     val flipsModeRunning: LiveData<Boolean> = stateManager.observeFlipsMode().asLiveData()

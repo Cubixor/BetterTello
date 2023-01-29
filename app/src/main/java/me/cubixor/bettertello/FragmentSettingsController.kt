@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import me.cubixor.bettertello.api.MenuAdapter
 import me.cubixor.bettertello.api.SpinnerBackgroundCreator
-import me.cubixor.bettertello.controller.ControllerUtils
 import me.cubixor.bettertello.databinding.FragmentSettingsControllerBinding
 
 class FragmentSettingsController : Fragment(), View.OnKeyListener, OnGenericMotionListener {
     private lateinit var binding: FragmentSettingsControllerBinding
     val viewModel: FragmentSettingsControllerViewModel by viewModels()
 
+    override fun onGenericMotion(v: View, event: MotionEvent): Boolean = viewModel.onGenericMotion(event)
+    override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean = viewModel.onKey(keyCode, event)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSettingsControllerBinding.inflate(inflater)
@@ -42,24 +43,5 @@ class FragmentSettingsController : Fragment(), View.OnKeyListener, OnGenericMoti
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown)
         spinner.adapter = adapter
         spinner.setSelection(toSelect)
-    }
-
-    override fun onGenericMotion(v: View, event: MotionEvent): Boolean {
-        if (ControllerUtils.checkDpadDevice(event)) {
-            val keyCode = ControllerUtils.dpadAxisToKey(event)
-            if (keyCode != -1) {
-                viewModel.processInputEvent(keyCode, event)
-                return true
-            }
-        }
-
-        //TODO Configurable axis
-        return ControllerUtils.checkGenericMotionEvent(event)
-    }
-
-    override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-        return if (ControllerUtils.checkKeyDownEvent(event)) {
-            viewModel.processInputEvent(keyCode, event)
-        } else false
     }
 }

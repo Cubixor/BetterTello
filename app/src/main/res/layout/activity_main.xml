@@ -8,6 +8,10 @@
         <import type="androidx.core.content.ContextCompat" />
 
         <variable
+            name="context"
+            type="android.content.Context" />
+
+        <variable
             name="viewModel"
             type="me.cubixor.bettertello.MainActivityViewModel" />
     </data>
@@ -387,6 +391,7 @@
 
         <include
             layout="@layout/video_info_layout"
+            app:context="@{context}"
             app:viewModel="@{viewModel}" />
 
 

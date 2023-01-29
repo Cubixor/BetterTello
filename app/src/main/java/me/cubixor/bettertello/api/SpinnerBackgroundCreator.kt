@@ -1,42 +1,33 @@
-package me.cubixor.bettertello.api;
+package me.cubixor.bettertello.api
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
+import android.content.Context
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.ShapeDrawable
+import androidx.core.content.res.ResourcesCompat
+import me.cubixor.bettertello.R
+import me.cubixor.bettertello.utils.Utils.dpToPixels
 
-import androidx.core.content.res.ResourcesCompat;
+class SpinnerBackgroundCreator {
+    fun createBackground(context: Context, items: Int): Drawable {
 
-import me.cubixor.bettertello.R;
-import me.cubixor.bettertello.utils.Utils;
+        val layers = arrayOfNulls<Drawable>(items)
+        val bgDrawable = ResourcesCompat.getDrawable(context.resources, R.drawable.button_background, null) as GradientDrawable
+        bgDrawable.setSize(dpToPixels(context, 150), dpToPixels(context, items * 42 + 2))
 
-public class SpinnerBackgroundCreator {
-
-    public Drawable createBackground(Context context, int items) {
-
-        Drawable[] layers = new Drawable[items];
-
-        GradientDrawable bgDrawable = (GradientDrawable) ResourcesCompat.getDrawable(context.getResources(), R.drawable.button_background, null);
-        bgDrawable.setSize(Utils.dpToPixels(context, 150), Utils.dpToPixels(context, items * 42 + 2));
-        layers[0] = bgDrawable;
-
-
-        for (int i = 1; i < items; i++) {
-            ShapeDrawable gradientDrawable = new ShapeDrawable();
-            gradientDrawable.getPaint().setColor(ResourcesCompat.getColor(context.getResources(), R.color.light_grey, null));
-
-            layers[i] = gradientDrawable;
+        layers[0] = bgDrawable
+        for (i in 1 until items) {
+            val gradientDrawable = ShapeDrawable()
+            gradientDrawable.paint.color = ResourcesCompat.getColor(context.resources, R.color.light_grey, null)
+            layers[i] = gradientDrawable
         }
 
-        LayerDrawable layerDrawable = new LayerDrawable(layers);
-
-        for (int i = 1; i < items; i++) {
-            layerDrawable.setLayerSize(i, Utils.dpToPixels(context, 150), Utils.dpToPixels(context, 2));
-            layerDrawable.setLayerInsetTop(i, Utils.dpToPixels(context, i * 42));
+        val layerDrawable = LayerDrawable(layers)
+        for (i in 1 until items) {
+            layerDrawable.setLayerSize(i, dpToPixels(context, 150), dpToPixels(context, 2))
+            layerDrawable.setLayerInsetTop(i, dpToPixels(context, i * 42))
         }
-
-        return layerDrawable;
-
+        return layerDrawable
     }
 }

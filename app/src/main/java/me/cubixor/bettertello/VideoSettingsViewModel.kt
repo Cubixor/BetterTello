@@ -4,9 +4,9 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import me.cubixor.bettertello.utils.VideoUtils
 
-class VideoSettingsViewModel : ViewModel() {
+class VideoSettingsViewModel(videoViewModel: VideoViewModel = VideoViewModelImpl(App.getInstance().appSettingsRepository)) : ViewModel(),
+    VideoViewModel by videoViewModel {
 
     private val appSettingsRepository = App.getInstance().appSettingsRepository
 
@@ -15,14 +15,14 @@ class VideoSettingsViewModel : ViewModel() {
     val quality: LiveData<Boolean> = appSettingsRepository.quality
     val iFrameInterval: LiveData<Float> = appSettingsRepository.iFrameInterval
 
-    @StringRes
+/*    @StringRes
     val bitrateRes: LiveData<Int> = bitrate.map { bitRate ->
         VideoUtils.getBitrateString(bitRate)
     }
 
     val exposureString: LiveData<String> = exposure.map { exposure ->
         VideoUtils.getExposureString(exposure)
-    }
+    }*/
 
     @StringRes
     val qualityRes: LiveData<Int> = quality.map { quality ->

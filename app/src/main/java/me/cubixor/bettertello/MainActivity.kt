@@ -1,15 +1,16 @@
 package me.cubixor.bettertello
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.DialogFragment
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 import me.cubixor.bettertello.api.OnSwipeListener
 import me.cubixor.bettertello.bar.BarState
 import me.cubixor.bettertello.controller.ControllerManager
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.context = this
         setContentView(binding.root)
         Utils.fullScreen(this)
 
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
          }*/
 
 
-        Utils.setupBlur(this, binding.blurView, 0.1f)
+        setupBlur(this, binding.blurView, 0.1f)
 
         controllerManager = (application as App).controllerManager
         tello = (application as App).tello
@@ -71,6 +73,22 @@ class MainActivity : AppCompatActivity() {
                 view.animate().rotationBy(-360f).duration = 500
             }
         }
+    }
+
+    fun setupBlur(activity: Activity, blurView: BlurView, radius: Float): BlurView {
+        val decorView = activity.window.decorView
+        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+        val windowBackground = decorView.background
+
+
+        blurView.outlineProvider = ViewOutlineProvider.BACKGROUND
+        blurView.clipToOutline = true
+        blurView.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(activity))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+        return blurView
     }
 
     private fun setupJoysticks() {
@@ -128,10 +146,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onGenericMotionEvent(event: MotionEvent): Boolean =
-        controllerManager.onGenericMotionEvent(event) || super.onGenericMotionEvent(event)
+        controllerManager.onGenericMotionEvent(
+            event,
+            controllerManager::processKeyInput,
+            controllerManager::processJoystickInput
+        ) || super.onGenericMotionEvent(event)
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean =
-        controllerManager.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event)
+        controllerManager.onKeyDown(keyCode, event, controllerManager::processKeyInput) || super.onKeyDown(keyCode, event)
 
     fun onVideoSettingsButtonClick(view: View) {
         val icon = view.findViewById<View>(R.id.videoSettingsImage)
