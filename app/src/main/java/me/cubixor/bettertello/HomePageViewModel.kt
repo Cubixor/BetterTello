@@ -1,16 +1,25 @@
 package me.cubixor.bettertello
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.cubixor.bettertello.bar.BarState
 import me.cubixor.bettertello.bar.BarStateChange
 import me.cubixor.bettertello.bar.BarStateManager
+import me.cubixor.bettertello.tello.TelloStateManager
+import javax.inject.Inject
 
-class HomePageViewModel : BarViewModel() {
+private const val TAG = "HomePageViewModel"
 
-    private val barStateManager: BarStateManager = App.getInstance().barStateManager
+@HiltViewModel
+class HomePageViewModel @Inject constructor(
+    private val barStateManager: BarStateManager,
+    telloStateManager: TelloStateManager
+) : BarViewModel(barStateManager, telloStateManager) {
+
 
     private val _expandButtonShown: MutableLiveData<Boolean> = MutableLiveData(false)
     val expandButtonShown: LiveData<Boolean> = _expandButtonShown
@@ -53,6 +62,8 @@ class HomePageViewModel : BarViewModel() {
     }
 
     init {
+        Log.d(TAG, "Injected: ${barStateManager.hashCode()}")
+
         viewModelScope.launch {
             observeActiveStates()
         }

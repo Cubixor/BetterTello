@@ -153,6 +153,12 @@
                     app:viewModel="@{viewModel}" />
 
                 <include
+                    android:id="@+id/controllerTakePhoto"
+                    layout="@layout/row_settings_controller"
+                    app:telloAction="@{TelloAction.TAKE_PHOTO}"
+                    app:viewModel="@{viewModel}" />
+
+                <include
                     android:id="@+id/controllerIncreaseExposure"
                     layout="@layout/row_settings_controller"
                     app:telloAction="@{TelloAction.INCREASE_EXPOSURE}"

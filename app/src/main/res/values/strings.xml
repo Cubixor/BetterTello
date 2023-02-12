@@ -90,6 +90,7 @@
     <string name="settings_controller_start_motors">Start motors</string>
     <string name="settings_controller_change_speed">Change speed</string>
     <string name="settings_controller_change_photo_video">Change photo/video</string>
+    <string name="settings_controller_take_photo">Take photo</string>
     <string name="settings_controller_increase_exposure">Increase exposure</string>
     <string name="settings_controller_decrease_exposure">Decrease exposure</string>
     <string name="settings_controller_increase_bitrate">Increase bitrate</string>

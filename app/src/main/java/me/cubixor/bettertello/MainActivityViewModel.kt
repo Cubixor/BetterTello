@@ -1,23 +1,55 @@
 package me.cubixor.bettertello
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import me.cubixor.bettertello.tello.TelloAction
+import dagger.hilt.android.lifecycle.HiltViewModel
+import me.cubixor.bettertello.bar.BarStateManager
+import me.cubixor.bettertello.data.AppSettingsRepository
+import me.cubixor.bettertello.tello.TelloManager
+import me.cubixor.bettertello.tello.TelloStateManager
+import me.cubixor.telloapi.api.video.BitRate
+import me.cubixor.telloapi.api.video.VideoInfo
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
+private const val TAG = "MainActivityViewModel"
 
-class MainActivityViewModel(videoViewModel: VideoViewModel = VideoViewModelImpl(App.getInstance().appSettingsRepository)) : BarViewModel(),
-    VideoViewModel by videoViewModel {
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    appSettingsRepository: AppSettingsRepository,
+    barStateManager: BarStateManager,
+    stateManager: TelloStateManager,
+    private val telloManager: TelloManager,
+) : BarViewModel(barStateManager, stateManager) {
 
-    private val stateManager = App.getInstance().telloStateManager
-    private val appSettingsRepository = App.getInstance().appSettingsRepository
-    private val tello = App.getInstance().tello
+    //private val stateManager = App.getInstance().telloStateManager
+    //private val appSettingsRepository = App.getInstance().appSettingsRepository
+    //private val tello = App.getInstance().tello
+    //private val videoViewModel: VideoViewModel = VideoViewModelImpl(App.getInstance().appSettingsRepository)
+
+    @StringRes
+    val bitrateRes: LiveData<Int> = appSettingsRepository.bitrate.map { bitRate ->
+        when (BitRate.values()[bitRate]) {
+            BitRate.MBPS_1 -> R.string.bitrate_1
+            BitRate.MBPS_1_5 -> R.string.bitrate_1_5
+            BitRate.MBPS_2 -> R.string.bitrate_2
+            BitRate.MBPS_3 -> R.string.bitrate_3
+            BitRate.MBPS_4 -> R.string.bitrate_4
+            else -> R.string.bitrate_auto
+        }
+    }
+
+    val exposureStr: LiveData<String> = appSettingsRepository.exposure.map { exposure ->
+        val exposureFloat = VideoInfo.getExposureValues()[exposure]
+        if (exposureFloat == 0.0f) App.instance.resources.getString(R.string.exposure_auto) else exposureFloat.toString()
+    }
 
     val timeFlying: LiveData<String> = stateManager.observeFlightTime().asLiveData().map {
         val dateTimeFormatter = DateTimeFormatter.ofPattern("mm:ss")
@@ -71,24 +103,28 @@ class MainActivityViewModel(videoViewModel: VideoViewModel = VideoViewModelImpl(
         }
 
     fun onTakeoffLandButtonClick() {
-        TelloAction.TAKEOFF_LAND.invoke(tello)
+        telloManager.takeoffLand()
     }
 
     fun onChangePhotoVideoButtonClick() {
-        TelloAction.CHANGE_PHOTO_VIDEO.invoke(tello)
+        telloManager.changePhotoVideo()
     }
 
     fun onChangeSpeedButtonClicked() {
-        TelloAction.CHANGE_SPEED.invoke(tello)
+        telloManager.changeSpeed()
     }
 
     fun onTakePhotoVideoClick() {
-        TelloAction.TAKE_PHOTO.invoke(tello)
+        telloManager.takePhoto()
     }
 
     fun onButtonAiClick(stop: Boolean) {
         if (stop) {
-            TelloAction.STOP_ALL.invoke(tello)
+            telloManager.stopAll()
         }
+    }
+
+    init {
+        Log.d(TAG, "Injected: ${barStateManager.hashCode()}")
     }
 }

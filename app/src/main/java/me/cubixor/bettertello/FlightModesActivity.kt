@@ -3,14 +3,23 @@ package me.cubixor.bettertello
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import me.cubixor.bettertello.databinding.ActivityFlightModesBinding
 import me.cubixor.bettertello.tello.TelloAction
+import me.cubixor.bettertello.tello.TelloManager
 import me.cubixor.bettertello.utils.Utils
 import me.cubixor.telloapi.api.Tello
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FlightModesActivity : AppCompatActivity() {
 
-    private lateinit var tello: Tello
+    @Inject
+    lateinit var tello: Tello
+
+    @Inject
+    lateinit var telloManager: TelloManager
+
     private lateinit var binding: ActivityFlightModesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +29,7 @@ class FlightModesActivity : AppCompatActivity() {
         setContentView(binding.root)
         Utils.fullScreen(this)
 
-        tello = (application as App).tello
+        //tello = (application as App).tello
     }
 
     fun onBackClick(v: View) {
@@ -28,7 +37,7 @@ class FlightModesActivity : AppCompatActivity() {
     }
 
     fun onFlightModeClick(telloAction: TelloAction) {
-        telloAction.invoke(tello)
+        telloAction.invoke(telloManager)
         finish()
     }
 }

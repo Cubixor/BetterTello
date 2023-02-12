@@ -9,24 +9,33 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.DialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import eightbitlab.com.blurview.BlurView
 import eightbitlab.com.blurview.RenderScriptBlur
 import me.cubixor.bettertello.api.OnSwipeListener
 import me.cubixor.bettertello.bar.BarState
 import me.cubixor.bettertello.controller.ControllerManager
 import me.cubixor.bettertello.databinding.ActivityMainBinding
-import me.cubixor.bettertello.tello.TelloAction
+import me.cubixor.bettertello.tello.TelloManager
 import me.cubixor.bettertello.utils.BarAnimationUtils
 import me.cubixor.bettertello.utils.Utils
 import me.cubixor.telloapi.api.FlipDirection
 import me.cubixor.telloapi.api.Tello
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var tello: Tello
-    private lateinit var controllerManager: ControllerManager
 
+    @Inject
+    lateinit var tello: Tello
+
+    @Inject
+    lateinit var telloManager: TelloManager
+
+    @Inject
+    lateinit var controllerManager: ControllerManager
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -54,8 +63,8 @@ class MainActivity : AppCompatActivity() {
 
         setupBlur(this, binding.blurView, 0.1f)
 
-        controllerManager = (application as App).controllerManager
-        tello = (application as App).tello
+        //controllerManager = (application as App).controllerManager
+        //tello = (application as App).tello
         val videoView = VideoView(this, binding.videoView)
         tello.addVideoListener(videoView)
 
@@ -117,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         val detector = GestureDetectorCompat(this, object : OnSwipeListener() {
             override fun onSwipe(direction: FlipDirection): Boolean {
                 println(direction)
-                TelloAction.handleFlip(tello, direction)
+                telloManager.flip(direction)
                 return true
             }
         })

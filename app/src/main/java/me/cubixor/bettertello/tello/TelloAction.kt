@@ -3,177 +3,137 @@ package me.cubixor.bettertello.tello
 import me.cubixor.bettertello.App
 import me.cubixor.bettertello.BuildConfig
 import me.cubixor.telloapi.api.FlipDirection
-import me.cubixor.telloapi.api.Tello
 import me.cubixor.telloapi.api.video.SmartVideoMode
 
 enum class TelloAction {
     TAKEOFF_LAND {
-        override operator fun invoke(tello: Tello) {
-            if (!tello.droneState.iseMSky()) {
-                tello.takeOff()
-            } else {
-                tello.land(false)
-            }
+        override operator fun invoke(telloManager: TelloManager) {
+            telloManager.takeoffLand()
         }
     },
     THROW_TAKEOFF_HAND_LAND {
-        override operator fun invoke(tello: Tello) {
-            if (!tello.droneState.iseMSky()) {
-                tello.throwTakeOff()
-            } else {
-                tello.palmLand()
-            }
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.throwTakeoffHandLand()
         }
     },
     START_MOTORS {
-        override operator fun invoke(tello: Tello) {
-            tello.startMotors()
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.startMotors()
         }
     },
     INCREASE_EXPOSURE {
-        override operator fun invoke(tello: Tello) {
-            val appSettings = App.getInstance().appSettingsRepository
-            appSettings.updateExposure(appSettings.exposure.value!! + 1)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.increaseExposure()
         }
     },
     DECREASE_EXPOSURE {
-        override operator fun invoke(tello: Tello) {
-            val appSettings = App.getInstance().appSettingsRepository
-            appSettings.updateExposure(appSettings.exposure.value!! - 1)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.decreaseExposure()
         }
     },
     INCREASE_BITRATE {
-        override operator fun invoke(tello: Tello) {
-            val appSettings = App.getInstance().appSettingsRepository
-            appSettings.updateBitrate(appSettings.bitrate.value!! + 1)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.increaseBitrate()
         }
     },
     DECREASE_BITRATE {
-        override operator fun invoke(tello: Tello) {
-            val appSettings = App.getInstance().appSettingsRepository
-            appSettings.updateBitrate(appSettings.bitrate.value!! - 1)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.decreaseBitrate()
         }
     },
     CHANGE_SPEED {
-        override operator fun invoke(tello: Tello) {
-            val appSettings = App.getInstance().appSettingsRepository
-            appSettings.switchFastMode()
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.changeSpeed()
         }
     },
     CHANGE_PHOTO_VIDEO {
-        override operator fun invoke(tello: Tello) {
-            val appSettings = App.getInstance().appSettingsRepository
-            appSettings.switchPhotoMode()
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.changePhotoVideo()
         }
     },
     TAKE_PHOTO {
-        override operator fun invoke(tello: Tello) {
-            tello.videoInfo.takePicture()
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.takePhoto()
         }
     },
     STOP_ALL {
-        override operator fun invoke(tello: Tello) {
-            if (tello.videoInfo.isSmartVideoRunning) {
-                val smartVideoMode = tello.videoInfo.smartVideoMode
-                tello.videoInfo.toggleSmartVideo(smartVideoMode, false)
-            }
-            tello.bounceMode(false)
-            App.getInstance().telloStateManager.setSmartModeRunning(false)
-            App.getInstance().telloStateManager.setFlipsMode(false)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.stopAll()
         }
     },
     MODE_UP_AND_AWAY {
-        override operator fun invoke(tello: Tello) {
-            handleOriginalFlightMode(tello, SmartVideoMode.UP_AND_OUT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.handleOriginalFlightMode(SmartVideoMode.UP_AND_OUT)
         }
     },
     MODE_CIRCLE {
-        override operator fun invoke(tello: Tello) {
-            handleOriginalFlightMode(tello, SmartVideoMode.CIRCLE)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.handleOriginalFlightMode(SmartVideoMode.CIRCLE)
         }
     },
     MODE_VIDEO_360 {
-        override operator fun invoke(tello: Tello) {
-            handleOriginalFlightMode(tello, SmartVideoMode.VIDEO_360)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.handleOriginalFlightMode(SmartVideoMode.VIDEO_360)
         }
     },
     MODE_BOUNCE {
-        override operator fun invoke(tello: Tello) {
-            STOP_ALL.invoke(tello)
-            tello.bounceMode(true)
-            App.getInstance().telloStateManager.setSmartModeRunning(true)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.modeBounce()
         }
     },
     MODE_8D_FLIPS {
-        override operator fun invoke(tello: Tello) {
-            val stateManager = App.getInstance().telloStateManager
-            stateManager.switchFlipsMode()
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.mode8DFlips()
         }
     },
     FLIP_FORWARD {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.FORWARD)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.FORWARD)
         }
     },
     FLIP_FORWARD_LEFT {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.FORWARD_LEFT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.FORWARD_LEFT)
         }
     },
     FLIP_FORWARD_RIGHT {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.FORWARD_RIGHT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.FORWARD_RIGHT)
         }
     },
     FLIP_LEFT {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.LEFT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.LEFT)
         }
     },
     FLIP_RIGHT {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.RIGHT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.RIGHT)
         }
     },
     FLIP_BACKWARD {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.BACKWARD)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.BACKWARD)
         }
     },
     FLIP_BACKWARD_LEFT {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.BACKWARD_LEFT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.BACKWARD_LEFT)
         }
     },
     FLIP_BACKWARD_RIGHT {
-        override operator fun invoke(tello: Tello) {
-            handleFlip(tello, FlipDirection.BACKWARD_RIGHT)
+        override fun invoke(telloManager: TelloManager) {
+            telloManager.flip(FlipDirection.BACKWARD_RIGHT)
         }
     };
 
     val settingsDescription: String
         get() {
-            val resources = App.getInstance().res
+            val resources = App.instance.resources
             val resName = "settings_controller_" + name.lowercase()
             val id = resources.getIdentifier(resName, "string", BuildConfig.APPLICATION_ID)
             return resources.getString(id)
         }
 
-    fun handleOriginalFlightMode(tello: Tello, smartVideoMode: SmartVideoMode) {
-        val stop = tello.videoInfo.isSmartVideoRunning && tello.videoInfo.smartVideoMode == smartVideoMode
-        STOP_ALL.invoke(tello)
-        if (!stop) {
-            tello.videoInfo.toggleSmartVideo(smartVideoMode, true)
-        }
-    }
-
-    abstract operator fun invoke(tello: Tello)
-
-    companion object {
-        fun handleFlip(tello: Tello, direction: FlipDirection?) {
-            if (tello.droneState.batteryPercentage > 50) {
-                tello.flip(direction)
-            }
-        }
-    }
+    abstract operator fun invoke(telloManager: TelloManager)
 }

@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_round_settings_48"
         android:title="@string/settings_general" />
     <item
-        android:id="@+id/settingsControllerEmptyFragment"
+        android:id="@+id/fragmentSettingsController"
         android:checkable="true"
         android:icon="@drawable/ic_round_sports_esports_24"
         android:title="@string/settings_controller" />

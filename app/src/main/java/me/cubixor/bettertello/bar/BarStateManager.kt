@@ -4,8 +4,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BarStateManager(currentState: BarState = BarState.NOT_CONNECTED) {
+@Singleton
+class BarStateManager @Inject constructor() {
+    private val currentState: BarState = BarState.NOT_CONNECTED
     private val activeStates = MutableStateFlow(arrayListOf(currentState))
     private val currentBar = MutableStateFlow(currentState)
     private val stateChanges = MutableStateFlow(BarStateChange(currentState, true, 0))

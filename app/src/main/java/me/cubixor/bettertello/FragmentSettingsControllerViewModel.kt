@@ -6,17 +6,21 @@ import android.view.MotionEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.cubixor.bettertello.controller.Controller
 import me.cubixor.bettertello.controller.ControllerManager
 import me.cubixor.bettertello.data.AppSettingsRepository
 import me.cubixor.bettertello.tello.TelloAction
 import me.cubixor.bettertello.utils.KeyCodes.keyCodes
 import java.util.*
+import javax.inject.Inject
 
-class FragmentSettingsControllerViewModel : ViewModel() {
+@HiltViewModel
+class FragmentSettingsControllerViewModel @Inject constructor(
+    private val controllerManager: ControllerManager,
+    private val appSettings: AppSettingsRepository
+) : ViewModel() {
 
-    private val appSettings: AppSettingsRepository = App.getInstance().appSettingsRepository
-    private val controllerManager: ControllerManager = App.getInstance().controllerManager
 
     private val _buttonText = MutableLiveData(EnumMap<TelloAction, String>(TelloAction::class.java))
     val buttonText: LiveData<EnumMap<TelloAction, String>> = _buttonText

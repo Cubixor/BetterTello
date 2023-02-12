@@ -11,13 +11,20 @@ import android.widget.Toast
 import me.cubixor.bettertello.App
 import me.cubixor.bettertello.R
 import me.cubixor.bettertello.data.AppSettingsRepository
+import me.cubixor.bettertello.tello.TelloManager
 import me.cubixor.telloapi.api.Tello
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.abs
 
-class ControllerManager : InputDeviceListener {
-    private val tello: Tello = App.getInstance().tello
-    private val appSettings: AppSettingsRepository = App.getInstance().appSettingsRepository
-    private val inputManager: InputManager = App.getInstance().getSystemService(Context.INPUT_SERVICE) as InputManager
+@Singleton
+class ControllerManager @Inject constructor(
+    private val tello: Tello,
+    private val telloManager: TelloManager,
+    private val appSettings: AppSettingsRepository
+) : InputDeviceListener {
+
+    private val inputManager: InputManager = App.instance.getSystemService(Context.INPUT_SERVICE) as InputManager
 
     init {
         inputManager.registerInputDeviceListener(this, null)
@@ -45,7 +52,7 @@ class ControllerManager : InputDeviceListener {
     }
 
     fun getControllerByID(descriptor: String): Controller? {
-        for (controller in App.getInstance().appSettingsRepository.controllers) {
+        for (controller in appSettings.controllers) {
             if (controller.descriptor == descriptor) {
                 return controller
             }
@@ -103,7 +110,7 @@ class ControllerManager : InputDeviceListener {
         val controller = getControllerByID(event.device.descriptor)
         val telloAction = controller?.mappings?.get(keyCode)
         if (telloAction != null) {
-            telloAction.invoke(tello)
+            telloAction.invoke(telloManager)
             return true
         }
         return false
@@ -147,12 +154,12 @@ class ControllerManager : InputDeviceListener {
         event.source and InputDevice.SOURCE_GAMEPAD == InputDevice.SOURCE_GAMEPAD || event.source and InputDevice.SOURCE_DPAD == InputDevice.SOURCE_DPAD && event.repeatCount == 0
 
 
-    private fun checkDpadDevice(event: InputEvent): Boolean = event.source and InputDevice.SOURCE_DPAD == InputDevice.SOURCE_DPAD
+    private fun checkDpadDevice(event: InputEvent): Boolean = event.source and InputDevice.SOURCE_DPAD != InputDevice.SOURCE_DPAD
 
     private fun checkInputDevice(sources: Int): Boolean =
         sources and InputDevice.SOURCE_GAMEPAD == InputDevice.SOURCE_GAMEPAD
                 || sources and InputDevice.SOURCE_JOYSTICK == InputDevice.SOURCE_JOYSTICK
-                || sources and InputDevice.SOURCE_DPAD != InputDevice.SOURCE_DPAD
+                || sources and InputDevice.SOURCE_DPAD == InputDevice.SOURCE_DPAD
 
 
     override fun onInputDeviceAdded(deviceId: Int) {
@@ -168,7 +175,7 @@ class ControllerManager : InputDeviceListener {
         }
 
         //Send a Toast with device connected message
-        val context = App.getInstance().applicationContext
+        val context = App.instance.applicationContext
         Toast.makeText(
             context, context.getString(R.string.controller_connected, inputDevice.name), Toast.LENGTH_SHORT
         ).show()

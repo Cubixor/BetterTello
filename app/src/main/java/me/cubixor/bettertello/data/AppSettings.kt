@@ -8,9 +8,12 @@ import me.cubixor.bettertello.App
 import me.cubixor.bettertello.controller.Controller
 import java.io.Serializable
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppSettings : Serializable {
-    private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getInstance().applicationContext)
+@Singleton
+class AppSettings @Inject constructor() : Serializable {
+    private val sharedPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.instance.applicationContext)
     private val editor: SharedPreferences.Editor = sharedPref.edit()
 
     var exposure: Int

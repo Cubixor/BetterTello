@@ -3,15 +3,16 @@ package me.cubixor.bettertello.data
 import android.view.InputDevice
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import me.cubixor.bettertello.App
 import me.cubixor.bettertello.controller.Controller
 import me.cubixor.bettertello.tello.TelloAction
+import me.cubixor.telloapi.api.Tello
 import me.cubixor.telloapi.api.video.BitRate
 import me.cubixor.telloapi.api.video.VideoMode
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppSettingsRepository(private val appSettings: AppSettings) {
-
-    private val tello = App.getInstance().tello
+@Singleton
+class AppSettingsRepository @Inject constructor(private val appSettings: AppSettings, private val tello: Tello) {
 
     private val _exposure: MutableLiveData<Int> = MutableLiveData(appSettings.exposure)
     val exposure: LiveData<Int> = _exposure

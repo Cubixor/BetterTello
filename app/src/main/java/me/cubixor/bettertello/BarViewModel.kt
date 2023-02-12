@@ -2,13 +2,19 @@ package me.cubixor.bettertello
 
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.cubixor.bettertello.bar.BarState
+import me.cubixor.bettertello.bar.BarStateManager
+import me.cubixor.bettertello.tello.TelloStateManager
+import javax.inject.Inject
 
-open class BarViewModel : ViewModel() {
+@HiltViewModel
+open class BarViewModel @Inject constructor(
+    barStateManager: BarStateManager,
+    private val stateManager: TelloStateManager
+) : ViewModel() {
 
-    private val stateManager = App.getInstance().telloStateManager
-    private val barStateManager = App.getInstance().barStateManager
 
     @DrawableRes
     private val _wifiStrengthRes: MutableLiveData<Int> =

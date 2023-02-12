@@ -10,8 +10,10 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import me.cubixor.bettertello.databinding.VideoSettingsBinding
 
+@AndroidEntryPoint
 class VideoSettingsWindow : DialogFragment() {
     private val viewModel: VideoSettingsViewModel by viewModels()
     private lateinit var binding: VideoSettingsBinding

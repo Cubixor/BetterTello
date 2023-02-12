@@ -49,7 +49,7 @@ public class FileManager implements FileReceiver {
             e.printStackTrace();
         }
 
-        MediaScannerConnection.scanFile(App.getInstance().getApplicationContext(), new String[]{file.getAbsolutePath()}, null, (path, uri) -> {
+        MediaScannerConnection.scanFile(App.Companion.getInstance().getApplicationContext(), new String[]{file.getAbsolutePath()}, null, (path, uri) -> {
         });
 
 

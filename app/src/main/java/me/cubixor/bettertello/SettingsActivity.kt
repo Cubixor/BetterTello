@@ -5,9 +5,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import me.cubixor.bettertello.databinding.ActivitySettingsBinding
 import me.cubixor.bettertello.utils.Utils
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding

@@ -4,16 +4,24 @@ package me.cubixor.bettertello.tello
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import me.cubixor.bettertello.App
 import me.cubixor.bettertello.bar.BarState
 import me.cubixor.bettertello.bar.BarStateManager
+import me.cubixor.bettertello.data.AppSettingsRepository
 import me.cubixor.telloapi.api.DroneStatus
+import me.cubixor.telloapi.api.Tello
 import me.cubixor.telloapi.api.listeners.DroneConnectionListener
 import me.cubixor.telloapi.api.listeners.DroneStatusListener
 import me.cubixor.telloapi.api.video.SmartVideoMode
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TelloStateManager : DroneStatusListener, DroneConnectionListener {
-    private val barStateManager: BarStateManager = App.getInstance().barStateManager
+@Singleton
+class TelloStateManager @Inject constructor(
+    private val barStateManager: BarStateManager,
+    private val appSettingsRepository: AppSettingsRepository,
+    tello: Tello
+) :
+    DroneStatusListener, DroneConnectionListener {
 
     private val wifiStrength = MutableStateFlow(0)
     fun observeWifiStrength(): Flow<Int> = wifiStrength.asStateFlow()
@@ -33,9 +41,13 @@ class TelloStateManager : DroneStatusListener, DroneConnectionListener {
     private val flipsMode = MutableStateFlow(false)
     fun observeFlipsMode(): Flow<Boolean> = flipsMode.asStateFlow()
 
+    init {
+        tello.addConnectionListener(this)
+        tello.addDroneStatusListener(this)
+    }
 
     override fun onConnect() {
-        App.getInstance().appSettingsRepository.startVideo()
+        appSettingsRepository.startVideo()
         barStateManager.clearBars()
         barStateManager.addState(BarState.READY_TO_FLY)
     }

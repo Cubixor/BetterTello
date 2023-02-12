@@ -5,10 +5,12 @@ import android.view.*
 import android.view.View.OnGenericMotionListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import me.cubixor.bettertello.api.MenuAdapter
 import me.cubixor.bettertello.api.SpinnerBackgroundCreator
 import me.cubixor.bettertello.databinding.FragmentSettingsControllerBinding
 
+@AndroidEntryPoint
 class FragmentSettingsController : Fragment(), View.OnKeyListener, OnGenericMotionListener {
     private lateinit var binding: FragmentSettingsControllerBinding
     val viewModel: FragmentSettingsControllerViewModel by viewModels()

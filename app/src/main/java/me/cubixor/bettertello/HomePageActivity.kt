@@ -19,6 +19,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
+import dagger.hilt.android.AndroidEntryPoint
 import me.cubixor.bettertello.api.MenuAdapter
 import me.cubixor.bettertello.api.SpinnerBackgroundCreator
 import me.cubixor.bettertello.bar.BarState
@@ -26,6 +27,7 @@ import me.cubixor.bettertello.databinding.ActivityHomePageBinding
 import me.cubixor.bettertello.utils.BarAnimationUtils
 import me.cubixor.bettertello.utils.Utils
 
+@AndroidEntryPoint
 class HomePageActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomePageBinding
