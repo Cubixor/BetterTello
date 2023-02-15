@@ -150,7 +150,7 @@ class HomePageActivity : AppCompatActivity() {
         val activeStates: List<BarState> = viewModel.activeStates.value!!
         if (activeStates.size < 2) return
 
-        binding.expandStatesButton.animate().rotationBy(-180f).duration = 300
+        binding.expandStatesButton.animate().rotation(-180f).duration = 300
 
         for (index in 1 until activeStates.size) {
             createStateBar(activeStates[index], index)
@@ -160,7 +160,7 @@ class HomePageActivity : AppCompatActivity() {
     private fun shrinkStates() {
         if (binding.expandStatesButton.visibility == View.INVISIBLE) return
 
-        binding.expandStatesButton.animate().rotationBy(180f).duration = 300
+        binding.expandStatesButton.animate().rotation(0f).duration = 300
         binding.homeStateLayout.bringToFront()
 
         for (textView in stateBars) {

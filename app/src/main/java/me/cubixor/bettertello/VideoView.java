@@ -20,37 +20,29 @@ import me.cubixor.telloapi.utils.ByteUtils;
 
 
 //TODO Cleanup
-public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListener*/ {
+public class VideoView implements VideoListener {
 
-    private final int height = 720;
-    private final ByteArrayOutputStream frameData = new ByteArrayOutputStream();
+    private final Activity activity;
     private final SurfaceView view;
-    //MediaPlayer mediaPlayer;
-    Activity activity;
-    boolean surfaceReady;
-    boolean surfaceDestroyed;
+    private final ByteArrayOutputStream frameData;
+    private final int height = 720;
+    private int width;
+    boolean surfaceReady = false;
+    //boolean surfaceDestroyed;
     private MediaCodec codec;
     private byte[] sps/* = new byte[]{0, 0, 0, 1, 103, 77, 64, 40, -107, -96, 60, 5, -71}*/;
     private byte[] pps/* = new byte[]{0, 0, 0, 1, 104, -18, 56, -128}*/;
-    private int width;
+
 
     public VideoView(Activity activity, SurfaceView view) {
         this.activity = activity;
         this.view = view;
+        frameData = new ByteArrayOutputStream();
 
         view.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(@NonNull SurfaceHolder holder) {
                 surfaceReady = true;
-                surfaceDestroyed = false;
-
-                 /* mediaPlayer = new MediaPlayer();
-                    mediaPlayer.setDisplay(view.getHolder());
-                    mediaPlayer.setDataSource("/sdcard/Download/Test.mp4");
-                    mediaPlayer.setVolume(0,0);
-                    mediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
-                    mediaPlayer.prepare();
-                    mediaPlayer.setOnPreparedListener(instance);*/
             }
 
             @Override
@@ -59,20 +51,15 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
 
             @Override
             public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-                surfaceDestroyed = true;
+                surfaceReady = false;
+                if (codec != null) {
+                    codec.stop();
+                    codec = null;
+                }
             }
         });
 
     }
-
-
-/*
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        mediaPlayer.start();
-    }
-*/
-
 
     private void init() {
         if (!surfaceReady) {
@@ -85,15 +72,16 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
         format.setByteBuffer("csd-0", ByteBuffer.wrap(sps));
         format.setByteBuffer("csd-1", ByteBuffer.wrap(pps));
 
-        if (codec != null) {
-            codec.stop();
-        }
-
         try {
-            String str = format.getString("mime");
-            codec = MediaCodec.createDecoderByType(str);
+            if (codec == null) {
+                String type = format.getString(MediaFormat.KEY_MIME);
+                codec = MediaCodec.createDecoderByType(type);
+                codec.setVideoScalingMode(MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+            } else {
+                codec.stop();
+            }
+
             codec.configure(format, view.getHolder().getSurface(), null, 0);
-            codec.setVideoScalingMode(MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT);
             codec.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,9 +97,10 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
             width = 960;
         }
 
+        float videoProportion = (float) width / (float) height;
+
         activity.runOnUiThread(() ->
         {
-            float videoProportion = (float) width / (float) height;
 
             Point size = new Point();
             activity.getWindowManager().getDefaultDisplay().getSize(size);
@@ -135,15 +124,14 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
 
     @Override
     public void onVideoDataReceived(byte[] data) {
-        if (surfaceDestroyed) {
+        if (!surfaceReady) {
             return;
         }
-
 
         byte[] dataTrimmed = ByteUtils.trim(data);
         byte[] dataNoTick = Arrays.copyOfRange(dataTrimmed, 2, dataTrimmed.length);
 
-        int tick = ByteBuffer.wrap(dataTrimmed, 0, 2).getShort() & 0xffff;
+        //int tick = ByteBuffer.wrap(dataTrimmed, 0, 2).getShort() & 0xffff;
         //int nalType = data[6] & 0x1f;
 
 
@@ -178,17 +166,13 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
             return;
         }
 
-/*
-        if(nalType == 7 || nalType == 8){
+        /*if(nalType == 7 || nalType == 8){
             return;
-        }
-*/
+        }*/
 
         if (data[2] == 0x00 && data[3] == 0x00 && data[4] == 0x00 && data[5] == 0x01) {
 
-            byte[] frameBytes = ByteUtils.trim(frameData.toByteArray());
-
-            if (frameBytes.length == 0) {
+            if (frameData.size() == 0) {
                 try {
                     frameData.write(dataNoTick);
                 } catch (IOException e) {
@@ -196,6 +180,8 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
                 }
                 return;
             }
+
+            byte[] frameBytes = ByteUtils.trim(frameData.toByteArray());
 
             //System.out.println("FULLFRAME:   LEN:" + frameBytes.length + "   DATA: " + Utils.bytesToHex(frameBytes));
 
@@ -210,10 +196,7 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
 
             // If  the buffer number is valid use the buffer with that index
             if (inputIndex >= 0) {
-                ByteBuffer buffer = codec.getInputBuffer(inputIndex);
-                buffer.clear();
-                buffer.put(frameBytes);
-                // tell the decoder to process the frame
+                codec.getInputBuffer(inputIndex).put(frameBytes);
                 codec.queueInputBuffer(inputIndex, 0, frameBytes.length, 0, 0);
             }
 
@@ -222,7 +205,6 @@ public class VideoView implements VideoListener/*, MediaPlayer.OnPreparedListene
             int outputIndex = codec.dequeueOutputBuffer(info, 0);
             while (outputIndex >= 0) {
                 codec.releaseOutputBuffer(outputIndex, true);
-
                 outputIndex = codec.dequeueOutputBuffer(info, 0L);
             }
 
