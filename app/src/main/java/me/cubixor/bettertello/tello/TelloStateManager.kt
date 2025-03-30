@@ -1,6 +1,7 @@
 package me.cubixor.bettertello.tello
 
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,9 +12,14 @@ import me.cubixor.telloapi.api.DroneStatus
 import me.cubixor.telloapi.api.Tello
 import me.cubixor.telloapi.api.listeners.DroneConnectionListener
 import me.cubixor.telloapi.api.listeners.DroneStatusListener
+import me.cubixor.telloapi.api.listeners.FileMonitor
 import me.cubixor.telloapi.api.video.SmartVideoMode
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.roundToInt
+
+
+private const val TAG = "TelloStateManager"
 
 @Singleton
 class TelloStateManager @Inject constructor(
@@ -21,7 +27,7 @@ class TelloStateManager @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     tello: Tello
 ) :
-    DroneStatusListener, DroneConnectionListener {
+    DroneStatusListener, DroneConnectionListener, FileMonitor {
 
     private val wifiStrength = MutableStateFlow(0)
     fun observeWifiStrength(): Flow<Int> = wifiStrength.asStateFlow()
@@ -40,10 +46,14 @@ class TelloStateManager @Inject constructor(
     fun observeFlightTime(): Flow<Int> = flightTime.asStateFlow()
     private val flipsMode = MutableStateFlow(false)
     fun observeFlipsMode(): Flow<Boolean> = flipsMode.asStateFlow()
+    private val photoDownloadPercentage = MutableStateFlow(0)
+    fun observePhotoDownloadPercentage(): Flow<Int> = photoDownloadPercentage.asStateFlow()
+
 
     init {
         tello.addConnectionListener(this)
         tello.addDroneStatusListener(this)
+        tello.addFileMonitor(this)
     }
 
     override fun onConnect() {
@@ -55,6 +65,11 @@ class TelloStateManager @Inject constructor(
     override fun onDisconnect() {
         barStateManager.clearBars()
         barStateManager.addState(BarState.LOST_CONNECTION)
+    }
+
+    override fun onPhotoSending(percentageDone: Float) {
+        photoDownloadPercentage.value = (percentageDone * 100).roundToInt()
+        Log.d(TAG, percentageDone.toString());
     }
 
     override fun onLightStrengthPacketReceive(lightOK: Boolean) {

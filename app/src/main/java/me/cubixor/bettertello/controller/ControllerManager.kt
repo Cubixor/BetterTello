@@ -65,7 +65,7 @@ class ControllerManager @Inject constructor(
         val deviceIds = InputDevice.getDeviceIds()
 
         for (deviceId in deviceIds) {
-            val dev = InputDevice.getDevice(deviceId)
+            val dev = InputDevice.getDevice(deviceId)!!
             if (checkInputDevice(dev.sources) && !devices.contains(dev)) devices.add(dev)
         }
         return devices
@@ -139,11 +139,13 @@ class ControllerManager @Inject constructor(
     private fun dpadAxisToKey(motionEvent: MotionEvent): Int {
         val xAxis = motionEvent.getAxisValue(MotionEvent.AXIS_HAT_X)
         val yAxis = motionEvent.getAxisValue(MotionEvent.AXIS_HAT_Y)
-        return if (xAxis.compareTo(-1.0f) == 0) KeyEvent.KEYCODE_DPAD_LEFT
-        else if (xAxis.compareTo(1.0f) == 0) KeyEvent.KEYCODE_DPAD_RIGHT
-        else if (yAxis.compareTo(-1.0f) == 0) KeyEvent.KEYCODE_DPAD_UP
-        else if (yAxis.compareTo(1.0f) == 0) KeyEvent.KEYCODE_DPAD_DOWN
-        else -1
+        return when {
+            xAxis.compareTo(-1.0f) == 0 -> KeyEvent.KEYCODE_DPAD_LEFT
+            xAxis.compareTo(1.0f) == 0 -> KeyEvent.KEYCODE_DPAD_RIGHT
+            yAxis.compareTo(-1.0f) == 0 -> KeyEvent.KEYCODE_DPAD_UP
+            yAxis.compareTo(1.0f) == 0 -> KeyEvent.KEYCODE_DPAD_DOWN
+            else -> -1
+        }
     }
 
     private fun checkGenericMotionEvent(event: MotionEvent): Boolean =
@@ -164,7 +166,7 @@ class ControllerManager @Inject constructor(
 
     override fun onInputDeviceAdded(deviceId: Int) {
         //Check if device is a controller
-        val inputDevice = inputManager.getInputDevice(deviceId)
+        val inputDevice = inputManager.getInputDevice(deviceId)!!
         if (!checkInputDevice(inputDevice.sources)) return
 
 
@@ -182,20 +184,20 @@ class ControllerManager @Inject constructor(
 
 
         //Check if settings are open, update controllers section
-/*
-        SettingsActivity settingsActivity = Activities.getSettings();
-        if (settingsActivity != null) {
-            if (settingsActivity.getCurrentSection() instanceof SettingsControllerEmptyFragment) {
-                settingsActivity.openSection(R.id.settingsControllerButton);
-            } else if (settingsActivity.getCurrentSection() instanceof FragmentSettingsController) {
-                FragmentSettingsController fragmentSettingsController = Activities.getSettingsControllerFragment();
+        /*
+                SettingsActivity settingsActivity = Activities.getSettings();
+                if (settingsActivity != null) {
+                    if (settingsActivity.getCurrentSection() instanceof SettingsControllerEmptyFragment) {
+                        settingsActivity.openSection(R.id.settingsControllerButton);
+                    } else if (settingsActivity.getCurrentSection() instanceof FragmentSettingsController) {
+                        FragmentSettingsController fragmentSettingsController = Activities.getSettingsControllerFragment();
 
-                if (fragmentSettingsController != null) {
-                    fragmentSettingsController.updateSpinner(controller.getInAppID());
+                        if (fragmentSettingsController != null) {
+                            fragmentSettingsController.updateSpinner(controller.getInAppID());
+                        }
+                    }
                 }
-            }
-        }
-*/
+        */
     }
 
     override fun onInputDeviceRemoved(deviceId: Int) {}

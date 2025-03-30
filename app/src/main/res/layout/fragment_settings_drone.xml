@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="me.cubixor.bettertello.FragmentSettingsDroneViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FragmentSettingsDrone">
+
+        <include
+            android:id="@+id/lowBatteryThreshold"
+            layout="@layout/settings_line_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            app:icon="@{@drawable/round_warning_24}"
+            app:layout_constraintBottom_toTopOf="@id/attitudeLimit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxProgress="@{40}"
+            app:progress="@{viewModel.lowBatteryThreshold-10}"
+            app:progressText="@{viewModel.lowBatteryThresholdText}"
+            app:text="@{@string/settings_drone_low_battery_threshold}" />
+
+        <include
+            android:id="@+id/attitudeLimit"
+            layout="@layout/settings_line_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:icon="@{@drawable/ic_round_attitude_24}"
+            app:layout_constraintBottom_toTopOf="@id/heightLimit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lowBatteryThreshold"
+            app:maxProgress="@{15}"
+            app:progress="@{viewModel.attitudeLimit-10}"
+            app:progressText="@{viewModel.attitudeLimitText}"
+            app:text="@{@string/settings_drone_attitude_limit}" />
+
+        <include
+            android:id="@+id/heightLimit"
+            layout="@layout/settings_line_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:icon="@{@drawable/ic_round_height_24}"
+            app:layout_constraintBottom_toTopOf="@id/wifiSSID"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attitudeLimit"
+            app:maxProgress="@{28}"
+            app:progress="@{viewModel.heightLimit-2}"
+            app:progressText="@{viewModel.heightLimitText}"
+            app:text="@{@string/settings_drone_height_limit}" />
+
+        <include
+            android:id="@+id/wifiSSID"
+            layout="@layout/settings_line_textbox"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:icon="@{@drawable/ic_round_signal_wifi_4_bar_24}"
+            app:layout_constraintBottom_toTopOf="@id/wifiPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/heightLimit"
+            app:text="@{@string/settings_drone_wifi_ssid}"
+            app:textBox="@{viewModel.wifiSSID}" />
+
+        <include
+            android:id="@+id/wifiPassword"
+            layout="@layout/settings_line_textbox"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:icon="@{@drawable/round_wifi_lock_24}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wifiSSID"
+            app:text="@{@string/settings_drone_wifi_password}"
+            app:textBox="@{viewModel.wifiPassword}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

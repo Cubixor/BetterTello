@@ -16,6 +16,7 @@
     <string name="pic_quality">Picture quality</string>
     <string name="pic_quality_low">LOW</string>
     <string name="pic_quality_high">HIGH</string>
+    <string name="photo_download_percentage">%1$d%%</string>
     <string name="battery_percentage">%1$d%%</string>
     <string name="speed">%1$d m/s</string>
     <string name="height">%1$d m</string>
@@ -75,8 +76,13 @@
     <string name="flight_mode_object_tracking_description">Select and track any object.</string>
     <string name="settings">SETTINGS</string>
     <string name="settings_general">General</string>
-    <string name="settings_photo_video">Photo &amp; Video</string>
+    <string name="settings_photo_video">Camera</string>
     <string name="settings_drone">Drone</string>
+    <string name="settings_drone_low_battery_threshold">Low battery threshold</string>
+    <string name="settings_drone_attitude_limit">Attitude limit</string>
+    <string name="settings_drone_height_limit">Height limit</string>
+    <string name="settings_drone_wifi_ssid">WiFi SSID</string>
+    <string name="settings_drone_wifi_password">WiFi password</string>
     <string name="settings_controller_empty">No saved controllers</string>
     <string name="settings_controller">Controller</string>
     <string name="settings_controller_mapping">Mapping</string>
@@ -115,4 +121,5 @@
     <string name="home_motors">Motor info</string>
     <string name="home_vgps">vGPS position</string>
     <string name="home_info">Device info</string>
+    <string name="title_activity_programming">ProgrammingActivity</string>
 </resources>

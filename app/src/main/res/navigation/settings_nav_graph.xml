@@ -17,7 +17,13 @@
         android:label="fragment_settings_general"
         tools:layout="@layout/fragment_settings_general" />
     <fragment
+        android:id="@+id/fragmentSettingsDrone"
+        android:name="me.cubixor.bettertello.FragmentSettingsDrone"
+        android:label="fragment_settings_drone"
+        tools:layout="@layout/fragment_settings_drone" />
+    <fragment
         android:id="@+id/fragmentSettingsController"
         android:name="me.cubixor.bettertello.FragmentSettingsController"
-        android:label="FragmentSettingsController" />
+        android:label="FragmentSettingsController"
+        tools:layout="@layout/fragment_settings_controller"/>
 </navigation>

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaScannerConnection
 import android.os.Environment
+import android.util.Log
 import androidx.exifinterface.media.ExifInterface
 import me.cubixor.bettertello.App.Companion.instance
 import me.cubixor.telloapi.api.listeners.FileReceiver
@@ -12,6 +13,9 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.logging.Logger
+
+private const val TAG = "FileManager"
 
 class FileManager : FileReceiver {
 
@@ -39,8 +43,7 @@ class FileManager : FileReceiver {
         )
     }
 
-
-    fun createDir(): File {
+    private fun createDir(): File {
         val dir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() +
                     File.separator + "BetterTello"

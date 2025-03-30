@@ -5,7 +5,7 @@ import me.cubixor.bettertello.BuildConfig
 import me.cubixor.telloapi.api.FlipDirection
 import me.cubixor.telloapi.api.video.SmartVideoMode
 
-enum class TelloAction {
+enum class TelloAction  {
     TAKEOFF_LAND {
         override operator fun invoke(telloManager: TelloManager) {
             telloManager.takeoffLand()

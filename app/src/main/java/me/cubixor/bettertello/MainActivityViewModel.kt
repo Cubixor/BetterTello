@@ -29,10 +29,6 @@ class MainActivityViewModel @Inject constructor(
     private val telloManager: TelloManager,
 ) : BarViewModel(barStateManager, stateManager) {
 
-    //private val stateManager = App.getInstance().telloStateManager
-    //private val appSettingsRepository = App.getInstance().appSettingsRepository
-    //private val tello = App.getInstance().tello
-    //private val videoViewModel: VideoViewModel = VideoViewModelImpl(App.getInstance().appSettingsRepository)
 
     @StringRes
     val bitrateRes: LiveData<Int> = appSettingsRepository.bitrate.map { bitRate ->
@@ -50,6 +46,8 @@ class MainActivityViewModel @Inject constructor(
         val exposureFloat = VideoInfo.getExposureValues()[exposure]
         if (exposureFloat == 0.0f) App.instance.resources.getString(R.string.exposure_auto) else exposureFloat.toString()
     }
+
+    val downloading: LiveData<Int> = stateManager.observePhotoDownloadPercentage().asLiveData()
 
     val timeFlying: LiveData<String> = stateManager.observeFlightTime().asLiveData().map {
         val dateTimeFormatter = DateTimeFormatter.ofPattern("mm:ss")
@@ -75,15 +73,6 @@ class MainActivityViewModel @Inject constructor(
             if (fastMode) R.string.fast_letter
             else R.string.slow_letter
         }
-/*
-    @StringRes
-    val bitRate: LiveData<Int> = appSettingsRepository.bitrate.map { bitRate ->
-        VideoUtils.getBitrateString(bitRate)
-    }
-
-    val exposure: LiveData<String> = appSettingsRepository.exposure.map { exposure ->
-        VideoUtils.getExposureString(exposure)
-    }*/
 
     val smartModeRunning: LiveData<Boolean> = stateManager.observeSmartModeRunning().asLiveData()
     val flipsModeRunning: LiveData<Boolean> = stateManager.observeFlipsMode().asLiveData()

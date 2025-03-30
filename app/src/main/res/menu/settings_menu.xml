@@ -6,6 +6,11 @@
         android:icon="@drawable/ic_round_settings_48"
         android:title="@string/settings_general" />
     <item
+        android:id="@+id/fragmentSettingsDrone"
+        android:checkable="true"
+        android:icon="@drawable/round_flight_24"
+        android:title="@string/settings_drone" />
+    <item
         android:id="@+id/fragmentSettingsController"
         android:checkable="true"
         android:icon="@drawable/ic_round_sports_esports_24"

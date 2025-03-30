@@ -6,8 +6,8 @@ import me.cubixor.telloapi.api.FlipDirection
 import kotlin.math.atan2
 
 abstract class OnSwipeListener : SimpleOnGestureListener() {
-    override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-        val x1 = e1.x
+   override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        val x1 = e1!!.x
         val y1 = e1.y
         val x2 = e2.x
         val y2 = e2.y

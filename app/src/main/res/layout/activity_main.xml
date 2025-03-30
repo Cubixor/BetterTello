@@ -390,6 +390,7 @@
 
 
         <include
+            android:id="@+id/videoInfo"
             layout="@layout/video_info_layout"
             app:context="@{context}"
             app:viewModel="@{viewModel}" />

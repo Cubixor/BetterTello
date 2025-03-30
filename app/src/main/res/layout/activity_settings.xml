@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsLine1" />
 
@@ -149,7 +149,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
-        android:layout_width="220dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:scrollbars="none"
@@ -176,6 +176,6 @@
         app:layout_constraintStart_toEndOf="@+id/settingsLine2"
         app:layout_constraintTop_toBottomOf="@+id/settingsLine1"
         app:navGraph="@navigation/settings_nav_graph"
-        tools:layout="@layout/fragment_settings_controller_empty" />
+        tools:layout="@layout/fragment_settings_drone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

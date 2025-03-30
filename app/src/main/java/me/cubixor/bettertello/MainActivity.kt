@@ -82,9 +82,13 @@ class MainActivity : AppCompatActivity() {
                 view.animate().rotationBy(-360f).duration = 500
             }
         }
+
+        viewModel.downloading.observe(this) {
+            updateDownloadingState(it);
+        }
     }
 
-    fun setupBlur(activity: Activity, blurView: BlurView, radius: Float): BlurView {
+    private fun setupBlur(activity: Activity, blurView: BlurView, radius: Float): BlurView {
         val decorView = activity.window.decorView
         val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
         val windowBackground = decorView.background
@@ -200,6 +204,26 @@ class MainActivity : AppCompatActivity() {
 
         val stateText = binding.stateText
         BarAnimationUtils.changeText(this, to, stateText)
+    }
+
+    private fun updateDownloadingState(percentage: Int) {
+        val videoInfo = binding.videoInfo;
+        val layoutParams = videoInfo.root.layoutParams;
+
+        if (percentage == 0 || percentage == 100) {
+            layoutParams.height = Utils.dpToPixels(applicationContext, 36)
+            videoInfo.videoStateText.visibility = View.GONE
+            videoInfo.videoStateImage.visibility = View.GONE
+        } else {
+            if (layoutParams.height == 36) {
+                layoutParams.height = Utils.dpToPixels(applicationContext, 50)
+                videoInfo.videoStateText.visibility = View.VISIBLE
+                videoInfo.videoStateImage.visibility = View.VISIBLE
+            }
+            videoInfo.videoStateText.text = getString(R.string.battery_percentage, percentage)
+        }
+
+        videoInfo.root.layoutParams = layoutParams
     }
 
     override fun onBackPressed() {
